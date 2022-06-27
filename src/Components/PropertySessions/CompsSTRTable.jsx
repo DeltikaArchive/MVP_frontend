@@ -7,10 +7,12 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { numberWithCommas } from "../../lib/utilityFunctions";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { AppContext } from "../../Context/AppContext";
+import { compose } from "@mui/system";
 
 function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
-   const { popupId, setPopupId, viewport, setViewport } =
+   const { popupId, setPopupId, viewport, setViewport, result } =
      useContext(AppContext);
+  const compsAvg = result[ 10 ][ 2 ];
   const [tableMarker, setTableMarker] = useState(0);
   const tableColumns = 5;
   const handleTableLeft = () => {
@@ -85,11 +87,11 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return (
                 <Td key={uuidv4()}>
-                  {Math.floor(property.similarity * 10) / 10}
+                  {/* {Math.floor(property.similarity * 10) / 10} */}
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal"></Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Address</Td>
@@ -111,7 +113,7 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal">N/A</Td>
+          <Td className="similarityTableTotal"></Td>
         </Tr>
         {/* <Tr className="tableRow">
           <Td className="leftCell">Lot size (sqft)</Td>
@@ -142,7 +144,9 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return <Td key={uuidv4()}>{property.bedrooms}</Td>;
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {Math.floor(compsAvg.bedrooms * 100) / 100}
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Bathrooms</Td>
@@ -154,9 +158,11 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
               </Td> */}
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
-              return <Td key={uuidv4()}>{property.total_bathrooms_numeric}</Td>;
+              return <Td key={uuidv4()}>{property.full_bathrooms}</Td>;
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {Math.floor(compsAvg.full_bathrooms * 100) / 100}
+          </Td>
         </Tr>
         {/* <Tr className="tableRow">
           <Td className="leftCell">Floors</Td>
@@ -188,9 +194,9 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
           {/* <Td>{result && checkDataExist(result[0].ADR)}</Td> */}
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
-              return <Td key={uuidv4()}>${numberWithCommas(property.ADR)}</Td>;
+              return <Td key={uuidv4()}>${numberWithCommas(property.adr)}</Td>;
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">{compsAvg.adr}</Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">
@@ -216,7 +222,9 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
                 <Td key={uuidv4()}>${numberWithCommas(property.ADR_PAR)}</Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            ${numberWithCommas(compsAvg.ADR_PAR)}
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">
@@ -242,7 +250,10 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
                 <Td key={uuidv4()}>${numberWithCommas(property.REV_PAR)}</Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {" "}
+            ${numberWithCommas(compsAvg.REV_PAR)}
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">
@@ -272,7 +283,10 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {" "}
+            ${numberWithCommas(compsAvg.expected_PAR_rev)}
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Available days</Td>
@@ -283,7 +297,9 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
                 <Td key={uuidv4()}>{Math.floor(property.available_days)}</Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {Math.floor(compsAvg.available_days * 10) / 10}
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Booked nights</Td>
@@ -294,7 +310,9 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
                 <Td key={uuidv4()}>{Math.floor(property.booked_nights)}</Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {Math.floor(compsAvg.booked_nights * 10) / 10}
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">OCC</Td>
@@ -307,7 +325,10 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {" "}
+            {Math.floor(compsAvg.occ * 10000) / 100}%
+          </Td>
         </Tr>
 
         <Tr className="tableRow">
@@ -321,7 +342,10 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {" "}
+            {Math.floor(compsAvg.distance * 100) / 100}
+          </Td>
         </Tr>
         <Tr>
           <Td></Td>

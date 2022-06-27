@@ -16,7 +16,8 @@ import { AppContext } from "../../Context/AppContext";
 
 
 function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
-  const { popupId, setPopupId,viewport, setViewport } = useContext(AppContext);
+  const { popupId, setPopupId, viewport, setViewport, result } = useContext(AppContext);
+  const compsAvg = result[10][0]
   const [tableMarker, setTableMarker] = useState(0);
   const tableColumns = 5;
   const handleTableLeft = () => {
@@ -30,6 +31,16 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
   function handleShowCard(id, lat, long) {
     setPopupId(id);
     setViewport({ ...viewport, latitude: lat, longitude: long });
+  }
+
+  function dateFormat(dateString) { 
+    const dateNew = new Date(dateString);
+    return new Date(
+      dateNew.getFullYear(),
+      dateNew.getMonth(),
+      dateNew.getDate()
+    );
+
   }
   return (
     <Table variant="simple" id="similarityTable" size="sm">
@@ -66,11 +77,7 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
           {/* <Td>{result && checkDataExist(result[0].similarity)}</Td> */}
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
-              return (
-                <Td key={uuidv4()}>
-                  {Math.floor(property.similarity * 10) / 10}
-                </Td>
-              );
+              return <Td key={uuidv4()}></Td>;
           })}
           <Td className="similarityTableTotal">TOTAL</Td>
         </Tr>
@@ -80,7 +87,12 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return (
                 <Td
-                  style={{ cursor: "pointer" }}
+                  id="addressCell"
+                  style={{
+                    cursor: "pointer",
+                    fontSize: "12px",
+                    textAlign: "left",
+                  }}
                   key={uuidv4()}
                   onClick={() =>
                     handleShowCard(
@@ -94,7 +106,7 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal">N/A</Td>
+          <Td className="similarityTableTotal"></Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Lot size (sqft)</Td>
@@ -105,18 +117,16 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
                 <Td key={uuidv4()}>{numberWithCommas(property.lot_size)}</Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {numberWithCommas(compsAvg.lot_size)}
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Building size</Td>
           {/* <Td>{result && checkDataExist(result[0].building_size)}</Td> */}
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
-              return (
-                <Td key={uuidv4()}>
-                  {numberWithCommas(property.building_area)}
-                </Td>
-              );
+              return <Td key={uuidv4()}>{numberWithCommas()}</Td>;
           })}
           <Td className="similarityTableTotal">TOTAL</Td>
         </Tr>
@@ -125,9 +135,9 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
           {/* <Td>{result && checkDataExist(result[0].bedrooms)}</Td> */}
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
-              return <Td key={uuidv4()}>{property.bedrooms}</Td>;
+              return <Td key={uuidv4()}></Td>;
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">{compsAvg.bedrooms}</Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Bathrooms</Td>
@@ -139,9 +149,17 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
               </Td> */}
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
-              return <Td key={uuidv4()}>{property.total_bathrooms_numeric}</Td>;
+              return (
+                <Td key={uuidv4()}>
+                  {property.full_bathrooms + property.half_bathrooms * 0.5}
+                </Td>
+              );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {Math.floor(
+              (compsAvg.full_bathrooms + compsAvg.half_bathrooms * 0.5) * 100
+            ) / 100}
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Floors</Td>
@@ -150,7 +168,9 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return <Td key={uuidv4()}>{property.floors}</Td>;
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {Math.floor(compsAvg.floors * 100) / 100}
+          </Td>
         </Tr>
 
         <Tr className="tableRow">
@@ -166,7 +186,9 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            ${numberWithCommas(compsAvg.sale_listing_price)}
+          </Td>
         </Tr>
 
         <Tr className="tableRow">
@@ -180,7 +202,9 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            ${numberWithCommas(compsAvg.sale_closing_price)}
+          </Td>
         </Tr>
 
         <Tr className="tableRow">
@@ -188,11 +212,7 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
           {/* <Td>{result && checkDataExist(result[0].rent)}</Td> */}
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
-              return (
-                <Td key={uuidv4()}>
-                  {property.date}
-                </Td>
-              );
+              return <Td key={uuidv4()}>{property.date.slice(0, 10)}</Td>;
           })}
           <Td className="similarityTableTotal"></Td>
         </Tr>
@@ -208,7 +228,9 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {Math.floor(compsAvg.distance * 100) / 100}
+          </Td>
         </Tr>
         <Tr>
           <Td></Td>

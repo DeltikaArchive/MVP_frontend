@@ -109,6 +109,11 @@ function Property() {
     setShowCompsSTR(true);
   }
 
+  
+  function handleClickSTRCount() {
+    setCompsPins();
+  }
+
   return (
     <div>
       {loading && <Spinner animation="border" />}

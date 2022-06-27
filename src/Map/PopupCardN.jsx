@@ -108,8 +108,8 @@ const rentalPriceTooltip = (props) => (
             </span>
           )}
         </Card.Title>
-        <Card.Text>
-          <div style={{ fontSize: "13px", textAlign: "left" }}>
+        <Card.Text style={{ fontSize: "13px", textAlign: "left" }}>
+         
             {showCompsSale && pin.building_area && (
               <>
                 <SquareFootIcon fontSize="small" />
@@ -130,25 +130,23 @@ const rentalPriceTooltip = (props) => (
               <BedIcon fontSize="small" /> {pin.bedrooms} Beds{" "}
             </span>
             {/* <span> | </span> */}
-            {pin.full_bathrooms ? (
+            {(pin.full_bathrooms && pin.half_bathrooms) ? (
               <span>
                 <ShowerOutlinedIcon fontSize="small" />
-                {pin.full_bathrooms} Baths
+                {pin.full_bathrooms+pin.half_bathrooms*0.5} Baths
               </span>
             ) : (
               <span>
                 {" "}
                 <ShowerOutlinedIcon fontSize="small" />{" "}
-                {pin.total_bathrooms_numeric} Baths
+                {pin.full_bathrooms} Baths
               </span>
             )}
-          </div>
-          <div
-            style={{ fontSize: "11px", textAlign: "left", marginTop: "8px" }}
-          >
-            <PinDropIcon fontSize="small" /> {pin.address}
-          </div>
+         
         </Card.Text>
+          <Card.Text style={{ fontSize: "11px", textAlign: "left", marginTop: "8px" }}>
+            <PinDropIcon fontSize="small" /> {pin.address}
+          </Card.Text>
         {/* <Button variant="link" style={{ fontSize: "13px" }}>
           Show more
         </Button> */}
@@ -165,7 +163,7 @@ const rentalPriceTooltip = (props) => (
             fullSymbol={<StarIcon />}
           />
         </Card.Footer>
-      )}
+       )} 
     </Card>
   );
 }

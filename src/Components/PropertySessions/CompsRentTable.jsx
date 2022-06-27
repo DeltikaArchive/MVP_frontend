@@ -15,9 +15,9 @@ import { numberWithCommas } from "../../lib/utilityFunctions";
 import { AppContext } from "../../Context/AppContext";
 
 function CompsRentTable({ SIMILARITY_TABLE_DATA }) {
-    const { popupId, setPopupId, viewport, setViewport } =
+    const { popupId, setPopupId, viewport, setViewport, result } =
       useContext(AppContext);
-
+const compsAvg = result[10][1]
   const [tableMarker, setTableMarker] = useState(0);
   const tableColumns = 5;
   const handleTableLeft = () => {
@@ -95,7 +95,7 @@ function CompsRentTable({ SIMILARITY_TABLE_DATA }) {
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal">N/A</Td>
+          <Td className="similarityTableTotal"></Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Lot size (sqft)</Td>
@@ -106,7 +106,9 @@ function CompsRentTable({ SIMILARITY_TABLE_DATA }) {
                 <Td key={uuidv4()}>{numberWithCommas(property.lot_size)}</Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {numberWithCommas(compsAvg.lot_size)}
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Building size</Td>
@@ -115,11 +117,11 @@ function CompsRentTable({ SIMILARITY_TABLE_DATA }) {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return (
                 <Td key={uuidv4()}>
-                  {numberWithCommas(property.building_area)}
+                  {numberWithCommas(property.building_size)}
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">{numberWithCommas()}</Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Bedrooms</Td>
@@ -128,7 +130,7 @@ function CompsRentTable({ SIMILARITY_TABLE_DATA }) {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return <Td key={uuidv4()}>{property.bedrooms}</Td>;
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">{compsAvg.bedrooms}</Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Bathrooms</Td>
@@ -140,9 +142,17 @@ function CompsRentTable({ SIMILARITY_TABLE_DATA }) {
               </Td> */}
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
-              return <Td key={uuidv4()}>{property.total_bathrooms_numeric}</Td>;
+              return (
+                <Td key={uuidv4()}>
+                  {property.full_bathrooms + property.half_bathrooms * 0.5}
+                </Td>
+              );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {Math.floor(
+              (compsAvg.full_bathrooms + compsAvg.half_bathrooms * 0.5) * 100
+            ) / 100}
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Floors</Td>
@@ -151,7 +161,9 @@ function CompsRentTable({ SIMILARITY_TABLE_DATA }) {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return <Td key={uuidv4()}>{property.floors}</Td>;
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {Math.floor(compsAvg.floors * 100) / 100}
+          </Td>
         </Tr>
 
         <Tr className="tableRow">
@@ -169,7 +181,9 @@ function CompsRentTable({ SIMILARITY_TABLE_DATA }) {
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            ${numberWithCommas(compsAvg.rental_price)}
+          </Td>
         </Tr>
 
         <Tr className="tableRow">
@@ -185,12 +199,12 @@ function CompsRentTable({ SIMILARITY_TABLE_DATA }) {
                 <Td key={uuidv4()}>
                   {property.rental_price &&
                     `$${(
-                      property.rental_price / property.building_area
+                      property.rental_price / property.building_size
                     ).toFixed(1)}`}
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">${}</Td>
         </Tr>
 
         <Tr className="tableRow">
@@ -200,7 +214,7 @@ function CompsRentTable({ SIMILARITY_TABLE_DATA }) {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return <Td key={uuidv4()}>{property.status}</Td>;
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal"></Td>
         </Tr>
 
         <Tr className="tableRow">
@@ -214,7 +228,9 @@ function CompsRentTable({ SIMILARITY_TABLE_DATA }) {
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {Math.floor(compsAvg.distance * 100) / 100}
+          </Td>
         </Tr>
         <Tr>
           <Td></Td>

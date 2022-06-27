@@ -44,6 +44,14 @@ function ShortTermRental({ onClickCompsSTR}) {
        Number of properties in each tier
      </Tooltip>
    );
+  function handleShowSTRPins(source_ids) {
+    const newIdsArray = source_ids.split(", ").map((e) => e.slice(1, -1));
+    console.log(newIdsArray);
+    const properties = result[9].filter((property) =>
+      newIdsArray.includes(property.source_id)
+    );
+    console.log(properties);
+  }
     return (
       <div>
         <div className="d-flex">
@@ -139,7 +147,13 @@ function ShortTermRental({ onClickCompsSTR}) {
                     ${numberWithCommas(str[3].expected_st_monthly_income)}
                   </td>
                   <td>{Math.floor(str[3].arbitrage * 100) / 100}</td>
-                  <td >{str[3].count}</td>
+                  <td
+                    id="STRCountCell"
+                    onClick={() => handleShowSTRPins(str[3].source_ids)}
+                  >
+                    {" "}
+                    {str[3].count}
+                  </td>
                 </tr>
                 <tr className="tableRow">
                   <td>

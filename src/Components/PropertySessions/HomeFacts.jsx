@@ -33,7 +33,7 @@ function HomeFacts() {
         </Row>
         <Row>
           <Col>MLS #: </Col>
-          <Col className="text-end">{result[0].MLS_number}</Col>
+          <Col className="text-end">{result[0].MLS_Number}</Col>
         </Row>
         <Row>
           <Col>Property Type:</Col>

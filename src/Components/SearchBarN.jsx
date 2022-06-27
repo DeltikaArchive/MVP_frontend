@@ -34,6 +34,7 @@ function SearchBarN() {
   let navigate = useNavigate();
   const {
     setResult,
+    setPopupId,setCompsPins,
     openMoreFilters,
     setOpenMoreFilters,
     searchResults,
@@ -67,6 +68,8 @@ function SearchBarN() {
     } else {
       setLoading(true);
       setResult("");
+      setPopupId(null);
+      setCompsPins();
       setEmptyField(false);
       setMlsError(false);
       setSearchResults([]);
@@ -96,6 +99,7 @@ function SearchBarN() {
         }
       } else {
         if (!MLS) {
+          setResult('');
           setEmptyField(true);
           setLoading(false);
         } else {
@@ -113,6 +117,7 @@ function SearchBarN() {
               // setSearchResults(res);
             } else {
               setMlsError(true);
+              setResult("");
               setLoading(false);
               // setSearchResults([]);
             }

@@ -23,8 +23,8 @@ function AddressInfo() {
             </h5>
           </Row>
           <Row style={{ fontSize: "12px" }}>
-            <Col>RC-4</Col>
-            <Col>0575/003</Col>
+            <Col>N/A</Col>
+            <Col>N/A</Col>
             <Col style={{ color: "#00b297e6", fontWeight: "600" }}>Active</Col>
           </Row>
           <Row style={{ fontSize: "12px", color: "gray" }}>

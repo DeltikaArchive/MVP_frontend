@@ -39,10 +39,10 @@ function Amenities() {
           </Row> */}
 
         <Row>
-          {result[1]["private pool"] > 0 && (
+          {result[1].private_pool > 0 && (
             <Col md={6}>
               <CheckIcon fontSize="small" />
-              &nbsp;{result[1]["private pool"]} Private Pool
+              &nbsp;{result[1].private_pool} Private Pool
             </Col>
           )}
           {result[1]["garages"] > 0 && (
@@ -51,17 +51,17 @@ function Amenities() {
               &nbsp;{result[1]["garages"]} Garages
             </Col>
           )}
-          
+
           {result[1]["fire place"] > 0 && (
             <Col md={6}>
               <CheckIcon fontSize="small" />
               &nbsp;{result[1]["fire place"]} Fire Place
             </Col>
           )}
-          {result[1]["parking"] > 0 && (
+          {result[1].parking > 0 && (
             <Col md={6}>
               <CheckIcon fontSize="small" />
-              &nbsp;{result[1]["parking"]} Parking
+              &nbsp;{result[1].parking} Parking
             </Col>
           )}
 
@@ -72,10 +72,10 @@ function Amenities() {
             </Col>
           )}
 
-          {result[1]["style"] && (
+          {result[1].style && (
             <Col md={6}>
               <CheckIcon fontSize="small" />
-              &nbsp;Style: {result[1]["style"]}
+              &nbsp;Style: {result[1].style}
             </Col>
           )}
         </Row>

@@ -121,7 +121,6 @@ export default function MapPageN() {
     // setViewport({ ...viewport, latitude: lat, longitude: long });
   }
 
-  console.log(popupId);
   return (
     <>
       <div id="mainMap">

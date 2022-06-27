@@ -7,7 +7,7 @@ import { numberWithCommas } from '../../lib/utilityFunctions';
 
 function RentalEstimate({ onClickCompsRent }) {
     const { result } = useContext(AppContext);
-  const rentalEstimate = result[ 4 ];
+  const rentalEstimate = result[ 4 ][0];
    const renderTooltip = (props) => (
      <Tooltip id="button-tooltip" {...props}>
        Comps Price/Sqft X Building Size
@@ -32,7 +32,7 @@ function RentalEstimate({ onClickCompsRent }) {
             <Col
               style={{ fontWeight: "600", fontSize: "15px", color: "#6b46c1" }}
             >
-              ${numberWithCommas(Math.floor(rentalEstimate["expected rental"]))}
+              ${numberWithCommas(rentalEstimate["expected_rental"])}
             </Col>
           </Row>
           <div>
@@ -65,20 +65,20 @@ function RentalEstimate({ onClickCompsRent }) {
               <thead>
                 <tr style={{ color: "#6b46c1" }}>
                   <th></th>
-                  <th>Property</th>
+                
                   <th>Comps</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="tableRow">
                   <td>Price/Sqft:</td>
-                  <td>$1.9</td>
-                  <td>$2.2</td>
+                 
+                  <td>$N/A</td>
                 </tr>
                 <tr className="tableRow">
                   <td>Count:</td>
-                  <td></td>
-                  <td>{rentalEstimate["properties count"]}</td>
+                 
+                  <td>{rentalEstimate["properties_count"]}</td>
                 </tr>
               </tbody>
             </Table>

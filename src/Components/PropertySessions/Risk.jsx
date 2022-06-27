@@ -18,11 +18,11 @@ function Risk({risk}) {
         </div>
         <div style={{ fontSize: "12px" }}>
           <Row className="text-start ms-1">{risk.level}</Row>
-          <Row className='justify-content-center'>
+          {/* <Row className='justify-content-center'>
             <Button variant='link' size="sm" disabled style={{width:"70px"}}>
               More
             </Button>
-          </Row>
+          </Row> */}
         </div>
       </Col>
     );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import ReactMapGL, {
+import Map, {
   Marker,
   Source,
   Layer,
@@ -32,6 +32,8 @@ import ParkIcon from "@mui/icons-material/Park";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import TocIcon from "@mui/icons-material/Toc";
+import CircleTwoToneIcon from "@mui/icons-material/CircleTwoTone";
+import PushPinIcon from "@mui/icons-material/PushPin";
 import {
   Bars,
   Malls,
@@ -44,7 +46,7 @@ import mapboxgl from "mapbox-gl";
 import PopupCardN from "../Map/PopupCardN";
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
-mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
+mapboxgl.workerClass =  require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 export default function MapPageN() {
   const ShiftViewClusterMarkers = 12;
@@ -58,8 +60,10 @@ export default function MapPageN() {
   const [showRestaurants, setShowRestaurants] = useState(false);
   const [showSuperMarkets, setShowSuperMarkets] = useState(false);
   const [showMapDrawer, setShowMapDrawer] = useState(false);
+
   const {
     result,
+    popupId,setPopupId,
     compsPins,
     showCompsSale,
     showCompsRent,
@@ -73,24 +77,23 @@ export default function MapPageN() {
     mapZoom,
     setMapZoom,
   } = useContext(AppContext);
-    
-    
+
   const [hoverInfo, setHoverInfo] = useState(null);
-  const [popupId, setPopupId] = useState(null);
+  
 
-    let pinStyle = {
-      fontSize: viewport.zoom * 3,
-      cursor: "pointer",
-    };
+  let pinStyle = {
+    fontSize: viewport.zoom * 2,
+    cursor: "pointer",
+  };
 
-    if (showCompsSale) {
-      pinStyle.color = "#df6fbe";
-    } else if (showCompsRent) {
-      pinStyle.color = "#fea900f8";
-    } else {
-      pinStyle.color = "#0fa893";
-    }
-    
+  if (showCompsSale) {
+    pinStyle.color = "#df6fbe";
+  } else if (showCompsRent) {
+    pinStyle.color = "#fea900f8";
+  } else {
+    pinStyle.color = "#0fa893";
+  }
+
   useEffect(() => {
     getPolygons().then((res) => {
       const collection = createPolygonsCollection(res);
@@ -113,10 +116,16 @@ export default function MapPageN() {
     // console.log(hoveredFeature && { feature: hoveredFeature, x, y });
   }, []);
 
+  function handleMarkerClick(id) {
+    setPopupId(id);
+    // setViewport({ ...viewport, latitude: lat, longitude: long });
+  }
+
+  console.log(popupId);
   return (
     <>
       <div id="mainMap">
-        <ReactMapGL
+        <Map
           {...viewport}
           onMove={(evt) => {
             setViewport(evt.viewState);
@@ -134,13 +143,14 @@ export default function MapPageN() {
           interactiveLayerIds={showPolygons ? ["data"] : null}
           onMouseMove={showPolygons ? onHover : null}
           onMouseLeave={(e) => setHoverInfo(null)}
+          transitionDuration="1000"
         >
           {mapZoom && result && (
             <>
               <Marker
                 longitude={checkExist(result[0].longitude)}
                 latitude={checkExist(result[0].latitude)}
-                clickTolerance={1}
+                // clickTolerance={1}
               >
                 <RoomIcon
                   style={{
@@ -148,19 +158,21 @@ export default function MapPageN() {
                     color: "red",
                     cursor: "pointer",
                   }}
-                  onClick={() => {
-                    setPopupId(result[0].source_id);
-                  }}
+                  onClick={() => handleMarkerClick(result[0].source_id)}
                 />
               </Marker>
               {result[0].source_id === popupId && (
                 <Popup
-                  longitude={checkExist(result[0].longitude)}
-                  latitude={checkExist(result[0].latitude)}
+                  longitude={result[0].longitude}
+                  latitude={result[0].latitude}
                   tipSize={30}
                   anchor="left"
-                  closeButton={false}
+                  closeButton={true}
+                  closeOnClick={true}
                   offset={10}
+                  onClose={() => {
+                    setPopupId(null);
+                  }}
                 >
                   {/* <PopupCard pin={pin} /> */}
                   <PopupCardN pin={result[0]} />
@@ -176,12 +188,12 @@ export default function MapPageN() {
                     <Marker
                       longitude={checkExist(pin.longitude)}
                       latitude={checkExist(pin.latitude)}
-                      clickTolerance={1}
+                      // clickTolerance={1}
                     >
-                      <RoomIcon
+                      <CircleTwoToneIcon
                         style={pinStyle}
                         onClick={() => {
-                          setPopupId(pin.source_id);
+                          handleMarkerClick(pin.source_id);
                         }}
                       />
                     </Marker>
@@ -192,8 +204,12 @@ export default function MapPageN() {
                         latitude={checkExist(pin.latitude)}
                         tipSize={30}
                         anchor="left"
-                        closeButton={false}
+                        closeButton={true}
+                        closeOnClick={true}
                         offset={10}
+                        onClose={() => {
+                          setPopupId(null);
+                        }}
                       >
                         {/* <PopupCard pin={pin} /> */}
                         <PopupCardN pin={pin} />
@@ -326,7 +342,7 @@ export default function MapPageN() {
               );
             })}
           <NavigationControl />
-        </ReactMapGL>
+        </Map>
         <div className="d-flex justify-content-between">
           <div onClick={(e) => setShowMapDrawer(true)}>
             <TocIcon id="filterIcon" fontSize="inherit" />

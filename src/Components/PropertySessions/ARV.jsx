@@ -34,13 +34,13 @@ function ARV({ onClickCompsSale }) {
         </h6>
       </div>
       <div style={{ fontSize: "12px", textAlign: "left" }}>
-        <Row>
+        <Row className="mb-2">
           <Col
             style={{ fontWeight: "600", fontSize: "15px", color: "#6b46c1" }}
           >
             ${numberWithCommas(Math.floor(arv.arv))}
           </Col>
-          <Col style={{ textAlign: "right" }}>
+          <Col style={{ textAlign: "right", fontSize: "15px" }}>
             <p>{Math.floor(arv["diff %"] * 100)}% Margin</p>
             <p
               style={
@@ -55,7 +55,7 @@ function ARV({ onClickCompsSale }) {
                     }
               }
             >
-              {Math.floor(arv["diff"] / 1000)}K
+              {Math.floor(arv["diff"] / 1000)}K{" "}
               <OverlayTrigger
                 placement="bottom"
                 delay={{ show: 250, hide: 400 }}

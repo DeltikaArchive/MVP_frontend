@@ -29,6 +29,7 @@ function Property() {
   } = useContext(AppContext);
   let navigate = useNavigate();
   const {
+    loading,
     setCompsPins,
     result,
     selectedId,
@@ -110,7 +111,8 @@ function Property() {
 
   return (
     <div>
-      {result && (
+      {loading && <Spinner animation="border" />}
+      {!loading && result && (
         <div className="propertyPage">
           {/* {propertyLoader && (
           <Spinner
@@ -155,17 +157,6 @@ function Property() {
             >
               <RentalEstimate onClickCompsRent={handleClickCompsRent} />
             </Col>
-            {/* <Col className="propertySession-1-2">
-              <Row className="propertySession-2">
-                <ARV />
-              </Row>
-              <Row className="propertySession-2 mt-2">
-                <RentalEstimate />
-              </Row>
-              <Row className="propertySession-2 mt-2">
-                <ShortTermRental />
-              </Row>
-            </Col> */}
           </Row>
           <Row>
             <Col

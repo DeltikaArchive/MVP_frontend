@@ -79,11 +79,11 @@ function Amenities() {
             </Col>
           )}
         </Row>
-        <Row>
+        {/* <Row>
           <Button variant="link" size="sm" disabled>
             More
           </Button>
-        </Row>
+        </Row> */}
       </div>
     </div>
   );

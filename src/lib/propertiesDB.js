@@ -32,7 +32,7 @@ export const getAllProperties = (
 
 export const getAllPropertiesByMLS = async (MLS) => {
   try {
-    const response = await axios.get(`${URLrequests}/${MLS}`);
+    const response = await axios.get(`${URLrequests}/property/${MLS}`);
     console.log(response.data)
     return response.data;
   } catch (error) {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Table,
   Thead,
@@ -12,8 +12,11 @@ import PropertyImgNotAvailable from "../../Images/PropertyImgNotAvailable.png";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { numberWithCommas } from "../../lib/utilityFunctions";
+import { AppContext } from "../../Context/AppContext";
+
 
 function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
+  const { popupId, setPopupId,viewport, setViewport } = useContext(AppContext);
   const [tableMarker, setTableMarker] = useState(0);
   const tableColumns = 5;
   const handleTableLeft = () => {
@@ -23,13 +26,18 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
     if (tableMarker + tableColumns < SIMILARITY_TABLE_DATA.length)
       setTableMarker((prev) => prev + 1);
   };
+
+  function handleShowCard(id, lat, long) {
+    setPopupId(id);
+    setViewport({ ...viewport, latitude: lat, longitude: long });
+  }
   return (
     <Table variant="simple" id="similarityTable" size="sm">
       <Thead>
         <Tr>
           <Th
             className="leftCell"
-            style={{ fontWeight: "900", color: "#6b46c1" }}
+            style={{ fontWeight: "900", color: "#6b46c1", fontSize: "15px" }}
           >
             Comps Sale
           </Th>
@@ -65,6 +73,28 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
               );
           })}
           <Td className="similarityTableTotal">TOTAL</Td>
+        </Tr>
+        <Tr className="tableRow">
+          <Td className="leftCell">Address</Td>
+          {SIMILARITY_TABLE_DATA.map((property, i) => {
+            if (i >= tableMarker && i < tableMarker + tableColumns)
+              return (
+                <Td
+                  style={{ cursor: "pointer" }}
+                  key={uuidv4()}
+                  onClick={() =>
+                    handleShowCard(
+                      property.source_id,
+                      property.latitude,
+                      property.longitude
+                    )
+                  }
+                >
+                  {property.address}
+                </Td>
+              );
+          })}
+          <Td className="similarityTableTotal">N/A</Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Lot size (sqft)</Td>
@@ -132,7 +162,7 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return (
                 <Td key={uuidv4()}>
-                  {Math.floor(property.sale_listing_price / 1000)}k
+                  ${numberWithCommas(property.sale_listing_price)}
                 </Td>
               );
           })}
@@ -146,11 +176,25 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return (
                 <Td key={uuidv4()}>
-                  {Math.floor(property.sale_closing_price / 1000)}K
+                  ${numberWithCommas(property.sale_closing_price)}
                 </Td>
               );
           })}
           <Td className="similarityTableTotal">TOTAL</Td>
+        </Tr>
+
+        <Tr className="tableRow">
+          <Td className="leftCell">Closing date</Td>
+          {/* <Td>{result && checkDataExist(result[0].rent)}</Td> */}
+          {SIMILARITY_TABLE_DATA.map((property, i) => {
+            if (i >= tableMarker && i < tableMarker + tableColumns)
+              return (
+                <Td key={uuidv4()}>
+                  {property.date}
+                </Td>
+              );
+          })}
+          <Td className="similarityTableTotal"></Td>
         </Tr>
 
         <Tr className="tableRow">

@@ -78,7 +78,7 @@ export default function MapPage() {
             setMapZoom(e.viewState.zoom);
           }}
           mapStyle="mapbox://styles/mapbox/streets-v8"
-          style={{ width: "100%", height: "500px" }}
+          // style={{ width: "100%", height: "300px" }}
           mapboxAccessToken={
             "pk.eyJ1IjoiYW1pcmI0IiwiYSI6ImNremU2aTNoYjJnMTAyb245dmFuOXd5c3gifQ.Glo-CqkxReedraWEdN-W3g"
           }

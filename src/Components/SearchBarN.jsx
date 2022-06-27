@@ -65,6 +65,8 @@ function SearchBarN() {
     if (Object.keys(loggedInUser).length === 0) {
       navigate(`/login-signup`);
     } else {
+      setLoading(true);
+      setResult("");
       setEmptyField(false);
       setMlsError(false);
       setSearchResults([]);
@@ -75,7 +77,6 @@ function SearchBarN() {
       setMapZoom(STARTING_MAP_ZOOM);
       if (addressSearch) {
         try {
-          setLoading(true);
           const res = await getAllProperties(
             address,
             bedroomsFilter,
@@ -91,17 +92,19 @@ function SearchBarN() {
           setSearchResults(res);
         } catch (error) {
           console.log(error);
+          setLoading(false);
         }
       } else {
         if (!MLS) {
           setEmptyField(true);
+          setLoading(false);
         } else {
           try {
             setLoading(true);
             const res = await getAllPropertiesByMLS(MLS);
             if (res) {
               console.log(res);
-              res[ 0 ].source_id = 123456789;
+              res[0].source_id = 123456789;
               res[0].latitude = 29.63930300768748;
               res[0].longitude = -95.2304783311589;
               zoomToResult(res[0].latitude, res[0].longitude);
@@ -115,13 +118,14 @@ function SearchBarN() {
             }
           } catch (error) {
             console.log(error);
+            setLoading(false);
           }
         }
       }
     }
   };
 
-  function zoomToResult(lat,long) {
+  function zoomToResult(lat, long) {
     const ZOOM = 12;
     setMapZoom(ZOOM);
     setViewport({
@@ -131,17 +135,16 @@ function SearchBarN() {
     });
   }
 
-
   const options = [
     {
       label: "MLS Number",
       value: false,
-      selectedBackgroundColor: "#6b46c1d2",
+      selectedBackgroundColor: "#6b46c1",
     },
     {
       label: "Address",
       value: true,
-      selectedBackgroundColor: "#6b46c1d2",
+      selectedBackgroundColor: "#6b46c1",
     },
   ];
 
@@ -149,7 +152,6 @@ function SearchBarN() {
     console.log(value);
     setMlsError(false);
     setAddressSearch(value);
-
   }
 
   return (
@@ -159,27 +161,26 @@ function SearchBarN() {
     >
       <Row>
         <Col className="d-flex align-items-center ">
-          <span className="me-2" style={{fontSize:"18px"}}>Search by : </span>
-          <div style={{ width: 300, height: 35 }}>
+          <span className="me-2" style={{ fontSize: "18px" }}>
+            Search by :{" "}
+          </span>
+          <div style={{ width: 250, height: 38 }}>
             <SwitchSelector
               onChange={handleSwitch}
               options={options}
               initialSelectedIndex={0}
-              backgroundColor={"white"}
               fontColor={"#6b46c1"}
-              fontSize={"12px"}
-              border={"2px solid #6b46c1"}
+              fontSize={14}
+              selectionIndicatorMargin={4}
+              backgroundColor={"#f8f9fa"}
             />
           </div>
-          <div className="ms-2" style={{ textAlign: "left" }}>
-            <Button
-              className="py-1"
-              onClick={handleSearch}
-            >
+          {/* <div className="ms-2" style={{ textAlign: "left" }}>
+            <Button className="py-1" onClick={handleSearch}>
               <SearchIcon />
               Search
             </Button>
-          </div>
+          </div> */}
         </Col>
         {/* <Col xs={2}>
           <div className="text-end h5">
@@ -192,19 +193,33 @@ function SearchBarN() {
           </div>
         </Col> */}
       </Row>
-     
+
       {!addressSearch && (
         <Row style={{ textAlign: "left" }}>
           <div className="d-flex align-items-center mt-3">
-            <NumbersIcon id="dropdownIcon" />
-            <Form.Control
-              style={{ width: "25%" }}
-              type="text"
-              placeholder="Enter a MLS number"
-              onChange={(e) => {
-                setMLS(e.target.value);
-              }}
-            />
+            <InputGroup
+              className=" d-flex align-items-center"
+              style={{ width: "360px" }}
+            >
+              <NumbersIcon id="dropdownIcon" />
+              <Form.Control
+                value={MLS}
+                type="text"
+                placeholder="Enter a MLS number"
+                onChange={(e) => {
+                  setMlsError(false);
+                  setEmptyField(false);
+                  setMLS(e.target.value);
+                }}
+              />
+              <Button
+                // variant="outline-secondary"
+                id="button-addon2"
+                onClick={handleSearch}
+              >
+                <SearchIcon /> 
+              </Button>
+            </InputGroup>
             {mlsError && (
               <Alert
                 variant="danger"
@@ -236,6 +251,7 @@ function SearchBarN() {
               <div id="specificDropdown">
                 <MapIcon id="dropdownIcon" />
                 <Form.Control
+                
                   value={address}
                   type="text"
                   placeholder="Enter an address"

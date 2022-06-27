@@ -6,8 +6,11 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { numberWithCommas } from "../../lib/utilityFunctions";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { AppContext } from "../../Context/AppContext";
 
 function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
+   const { popupId, setPopupId, viewport, setViewport } =
+     useContext(AppContext);
   const [tableMarker, setTableMarker] = useState(0);
   const tableColumns = 5;
   const handleTableLeft = () => {
@@ -20,31 +23,38 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
 
   const ADRTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-      .
+      Average daily rate
     </Tooltip>
   );
   const ADR_PARTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-      .
+      Average daily rate per available room
     </Tooltip>
   );
-  const REV_PARTooltip = (props) => (
+  const REV_PANTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-     .
+      RevPAN (Revenue per Available Night) = ADR (Average Daily Rate) x Occ.
+      (Occupancy). It is the average amount of money collected each night that
+      the property is available to rent out.
     </Tooltip>
   );
   const expected_PAR_revTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-     .
+      Under assumption of full availability
     </Tooltip>
   );
+
+   function handleShowCard(id, lat, long) {
+     setPopupId(id);
+     setViewport({ ...viewport, latitude: lat, longitude: long });
+   }
   return (
     <Table variant="simple" id="similarityTable" size="sm">
       <Thead>
         <Tr>
           <Th
             className="leftCell"
-            style={{ fontWeight: "900", color: "#6b46c1" }}
+            style={{ fontWeight: "900", color: "#6b46c1", fontSize: "15px" }}
           >
             Comps STR
           </Th>
@@ -81,7 +91,28 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
           })}
           <Td className="similarityTableTotal">TOTAL</Td>
         </Tr>
-
+        <Tr className="tableRow">
+          <Td className="leftCell">Address</Td>
+          {SIMILARITY_TABLE_DATA.map((property, i) => {
+            if (i >= tableMarker && i < tableMarker + tableColumns)
+              return (
+                <Td
+                  style={{ cursor: "pointer" }}
+                  key={uuidv4()}
+                  onClick={() =>
+                    handleShowCard(
+                      property.source_id,
+                      property.latitude,
+                      property.longitude
+                    )
+                  }
+                >
+                  {property.address}
+                </Td>
+              );
+          })}
+          <Td className="similarityTableTotal">N/A</Td>
+        </Tr>
         {/* <Tr className="tableRow">
           <Td className="leftCell">Lot size (sqft)</Td>
           {SIMILARITY_TABLE_DATA.map((property, i) => {
@@ -192,7 +223,7 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
             <OverlayTrigger
               placement="bottom"
               delay={{ show: 250, hide: 400 }}
-              overlay={REV_PARTooltip}
+              overlay={REV_PANTooltip}
             >
               <span
                 style={{
@@ -200,7 +231,7 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
                   textDecorationStyle: "dashed",
                 }}
               >
-                REV_PAR
+                REV_PAN
               </span>
             </OverlayTrigger>
           </Td>

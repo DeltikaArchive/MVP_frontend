@@ -12,20 +12,18 @@ import { BiMessageSquareAdd } from "react-icons/bi";
 import "./MainNavbar.css";
 import LOGO from "../Images/LOGO.png";
 import { AppContext } from "../Context/AppContext";
-import { auth } from "../firebase-config";
-import { signOut } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import { MAP_VIEWPORT, STARTING_MAP_ZOOM } from "../Map/MapUtils";
 
-// import useAuth from "../hooks/useAuth";
-// import usePets from "../hooks/usePets";
 
 function MainNavbar() {
   const { loggedInUser, setViewport, setMapZoom } = useContext(AppContext);
   const navigate = useNavigate();
 
   //   const { activeUser, onModalShow, onLogout } = useAuth();
-  //   const { OnNavigateSearch } = usePets();
+
   const logout = async () => {
+ const auth = getAuth();
     await signOut(auth);
     setViewport(MAP_VIEWPORT);
     setMapZoom(STARTING_MAP_ZOOM);

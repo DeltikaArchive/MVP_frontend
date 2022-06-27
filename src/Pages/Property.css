@@ -21,6 +21,7 @@
 }
 
 .propertySession-2{
+    min-height: 50%;
     padding: 6px 12px;
     border-radius: 5px;
     box-shadow: 0px 5px 10px 0 rgba(110, 105, 105, 0.363)

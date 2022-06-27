@@ -43,7 +43,7 @@ function App() {
   const [showCrimes, setShowCrimes] = useState(false);
   const [mapZoom, setMapZoom] = useState(STARTING_MAP_ZOOM);
   const [viewport, setViewport] = useState(MAP_VIEWPORT);
-
+const [popupId, setPopupId] = useState(null);
   const [propertyResTab, setPropertyResTab] = useState(0);
   const [specialIndicatorsTab, setSpecialIndicatorsTab] = useState(0);
   const [loansExtraData, setLoansExtraData] = useState([]);
@@ -154,7 +154,7 @@ function App() {
   return (
     <AppContext.Provider
       value={{
-        result, setResult,
+        result, setResult,popupId,setPopupId,
         loggedInUser,
         setLoggedInUser,
         openMoreFilters,

@@ -29,12 +29,14 @@ import {
   SliderTrack,
   SliderThumb,
 } from "@chakra-ui/react";
+import { fabClasses } from "@mui/material";
 
 function SearchBarN() {
   let navigate = useNavigate();
   const {
     setResult,
-    setPopupId,setCompsPins,
+    setPopupId,
+    setCompsPins,
     openMoreFilters,
     setOpenMoreFilters,
     searchResults,
@@ -48,6 +50,7 @@ function SearchBarN() {
     setMapZoom,
   } = useContext(AppContext);
 
+  const [validated, setValidated] = useState(false);
   const [address, setAddress] = useState("");
   const [bedroomsFilter, setBedroomsFilter] = useState("");
   const [bathroomsFilter, setBathroomsFilter] = useState("");
@@ -56,29 +59,33 @@ function SearchBarN() {
   const [price, setPrice] = useState("");
   const [year, setYear] = useState("");
   const [MLS, setMLS] = useState("");
-  const [range, setRange] = useState(500);
+  const [range, setRange] = useState(200);
   const [addressSearch, setAddressSearch] = useState(false);
   const [mlsError, setMlsError] = useState(false);
   const [emptyField, setEmptyField] = useState(false);
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if (Object.keys(loggedInUser).length === 0) {
-      navigate(`/login-signup`);
+  async function handleAddressSearch(e) {
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
     } else {
-      setLoading(true);
-      setResult("");
-      setPopupId(null);
-      setCompsPins();
-      setEmptyField(false);
-      setMlsError(false);
-      setSearchResults([]);
-      setPropertyResTab(0);
-      setSpecialIndicatorsTab(0);
-      navigate(`/search`);
-      setViewport(MAP_VIEWPORT);
-      setMapZoom(STARTING_MAP_ZOOM);
-      if (addressSearch) {
+      setValidated(true);
+      if (Object.keys(loggedInUser).length === 0) {
+        navigate(`/login-signup`);
+      } else {
+        setLoading(true);
+        setResult("");
+        setPopupId(null);
+        setCompsPins();
+        setEmptyField(false);
+        setMlsError(false);
+        setSearchResults([]);
+        setPropertyResTab(0);
+        setSpecialIndicatorsTab(0);
+        navigate(`/search`);
+        setViewport(MAP_VIEWPORT);
+        setMapZoom(STARTING_MAP_ZOOM);
         try {
           const res = await getAllProperties(
             address,
@@ -97,34 +104,50 @@ function SearchBarN() {
           console.log(error);
           setLoading(false);
         }
+      }
+    }
+  }
+  
+  async function handleMLSSearch (e) {
+     e.preventDefault();
+    if (Object.keys(loggedInUser).length === 0) {
+      navigate(`/login-signup`);
+    } else {
+      setLoading(true);
+      setResult("");
+      setPopupId(null);
+      setCompsPins();
+      setEmptyField(false);
+      setMlsError(false);
+      setSearchResults([]);
+      setPropertyResTab(0);
+      setSpecialIndicatorsTab(0);
+      navigate(`/search`);
+      setViewport(MAP_VIEWPORT);
+      setMapZoom(STARTING_MAP_ZOOM);
+
+      if (!MLS) {
+        setResult("");
+        setEmptyField(true);
+        setLoading(false);
       } else {
-        if (!MLS) {
-          setResult('');
-          setEmptyField(true);
-          setLoading(false);
-        } else {
-          try {
-            setLoading(true);
-            const res = await getAllPropertiesByMLS(MLS);
-            if (res) {
-              console.log(res);
-              res[0].source_id = 123456789;
-              res[0].latitude = 29.63930300768748;
-              res[0].longitude = -95.2304783311589;
-              zoomToResult(res[0].latitude, res[0].longitude);
-              setLoading(false);
-              setResult(res);
-              // setSearchResults(res);
-            } else {
-              setMlsError(true);
-              setResult("");
-              setLoading(false);
-              // setSearchResults([]);
-            }
-          } catch (error) {
-            console.log(error);
+        try {
+          setLoading(true);
+          const res = await getAllPropertiesByMLS(MLS);
+          if (res) {
+            console.log(res);
+            res[0].source_id = res[0].MLS_Number;
+            zoomToResult(res[0].latitude, res[0].longitude);
+            setLoading(false);
+            setResult(res);
+          } else {
+            setMlsError(true);
+            setResult("");
             setLoading(false);
           }
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
         }
       }
     }
@@ -154,9 +177,10 @@ function SearchBarN() {
   ];
 
   function handleSwitch(value) {
-    console.log(value);
     setMlsError(false);
+    setEmptyField(false)
     setAddressSearch(value);
+    setValidated(false);
   }
 
   return (
@@ -180,12 +204,6 @@ function SearchBarN() {
               backgroundColor={"#f8f9fa"}
             />
           </div>
-          {/* <div className="ms-2" style={{ textAlign: "left" }}>
-            <Button className="py-1" onClick={handleSearch}>
-              <SearchIcon />
-              Search
-            </Button>
-          </div> */}
         </Col>
         {/* <Col xs={2}>
           <div className="text-end h5">
@@ -220,9 +238,9 @@ function SearchBarN() {
               <Button
                 // variant="outline-secondary"
                 id="button-addon2"
-                onClick={handleSearch}
+                onClick={handleMLSSearch}
               >
-                <SearchIcon /> 
+                <SearchIcon />
               </Button>
             </InputGroup>
             {mlsError && (
@@ -251,161 +269,195 @@ function SearchBarN() {
               Please fill up property information:
             </Col>
           </Row>
-          <Row className="mb-3 w-75">
-            <Col xs={5}>
-              <div id="specificDropdown">
-                <MapIcon id="dropdownIcon" />
-                <Form.Control
-                
-                  value={address}
-                  type="text"
-                  placeholder="Enter an address"
-                  onChange={(e) => {
-                    setAddress(e.target.value);
-                  }}
-                />
-              </div>
-            </Col>
-            <Col xs={5}>
-              <div id="specificDropdown">
-                <Form.Label className="mb-0" sm="4" id="sliderLabel">
-                  Range:
-                </Form.Label>
-                <Slider
-                  defaultValue={range}
-                  colorScheme="purple"
-                  onChange={(val) => setRange(val)}
-                  max={500}
-                  step={1}
-                >
-                  <SliderTrack>
-                    <SliderFilledTrack />
-                  </SliderTrack>
-                  <SliderThumb index={0} className="rangeSliderThumb" />
-                </Slider>
-                <Form.Label className="ms-3 mb-0" sm="4" id="sliderLabel">
-                  {numberWithCommas(range)} Miles
-                </Form.Label>
-              </div>
-            </Col>
-          </Row>
-          <Row className="w-75">
-            <Col>
-              <div id="specificDropdown">
-                <HomeOutlinedIcon id="dropdownIcon" />
-                <Form.Select
-                  size="sm"
-                  value={homeTypeFilter}
-                  onChange={(e) => setHomeTypeFilter(e.target.value)}
-                  style={{
-                    paddingTop: "6px",
-                    paddingBottom: "6px",
-                    fontSize: "12px",
-                  }}
-                >
-                  <option id="optionName" value="%">
-                    Home Type
-                  </option>
-                  <option value={"Houses/Single Family"}>
-                    Houses/Single Family
-                  </option>
-                  <option value="Townhomes" disabled>
-                    Townhomes
-                  </option>
-                  <option value="Multifamily" disabled>
-                    Multi-family
-                  </option>
-                  <option value="Condo/Co-ops" disabled>
-                    Condo/Co-ops
-                  </option>
-                  <option value="Apartments" disabled>
-                    Apartments
-                  </option>
-                </Form.Select>
-              </div>
-            </Col>
-            <Col>
-              <div id="specificDropdown">
-                <KingBedOutlinedIcon id="dropdownIcon" />
-                <Form.Control
-                  style={{
-                    fontSize: "12px",
-                  }}
-                  value={bedroomsFilter}
-                  type="number"
-                  placeholder="Bedroom"
-                  onChange={(e) => {
-                    setBedroomsFilter(e.target.value);
-                  }}
-                />
-              </div>
-            </Col>
-            <Col>
-              <div id="specificDropdown">
-                <ShowerOutlinedIcon id="dropdownIcon" />
-                <Form.Control
-                  style={{
-                    fontSize: "12px",
-                  }}
-                  value={bathroomsFilter}
-                  type="number"
-                  placeholder="Bathroom"
-                  onChange={(e) => {
-                    setBathroomsFilter(e.target.value);
-                  }}
-                />
-              </div>
-            </Col>
+          <Form noValidate validated={validated} >
+            <Row className="mb-3 w-75">
+              <Col xs={5}>
+                <InputGroup className=" d-flex align-items-center">
+                  <MapIcon id="dropdownIcon" />
+                  <Form.Control
+                    required
+                    value={address}
+                    type="text"
+                    placeholder="Enter an address"
+                    onChange={(e) => {
+                      setAddress(e.target.value);
+                    }}
+                  />{" "}
+                  <Button
+                    // type="submit"
+                    // variant="outline-secondary"
+                    id="button-addon2"
+                    onClick={handleAddressSearch}
+                  >
+                    <SearchIcon />
+                  </Button>
+                  <Form.Control.Feedback type="invalid">
+                    {/* Please provide a valid address. */}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Col>
+              <Col xs={5}>
+                <div id="specificDropdown">
+                  <Form.Label className="mb-0" sm="4" id="sliderLabel">
+                    Range:
+                  </Form.Label>
+                  <Slider
+                    defaultValue={range}
+                    colorScheme="purple"
+                    onChange={(val) => setRange(val)}
+                    max={500}
+                    step={1}
+                  >
+                    <SliderTrack>
+                      <SliderFilledTrack />
+                    </SliderTrack>
+                    <SliderThumb index={0} className="rangeSliderThumb" />
+                  </Slider>
+                  <Form.Label className="ms-3 mb-0" sm="4" id="sliderLabel">
+                    {numberWithCommas(range)} Miles
+                  </Form.Label>
+                </div>
+              </Col>
+            </Row>
+            <Row className="w-75">
+              <Col>
+                <div id="specificDropdown">
+                  <HomeOutlinedIcon id="dropdownIcon" />
+                  <Form.Select
+                    required
+                    size="sm"
+                    value={homeTypeFilter}
+                    onChange={(e) => setHomeTypeFilter(e.target.value)}
+                    style={{
+                      paddingTop: "6px",
+                      paddingBottom: "6px",
+                      fontSize: "12px",
+                    }}
+                  >
+                    <option id="optionName" value="%">
+                      Home Type
+                    </option>
+                    <option value={"Houses/Single Family"}>
+                      Houses/Single Family
+                    </option>
+                    <option value="Townhomes" disabled>
+                      Townhomes
+                    </option>
+                    <option value="Multifamily" disabled>
+                      Multi-family
+                    </option>
+                    <option value="Condo/Co-ops" disabled>
+                      Condo/Co-ops
+                    </option>
+                    <option value="Apartments" disabled>
+                      Apartments
+                    </option>
+                  </Form.Select>
+                </div>
+              </Col>
+              <Col>
+                <div id="specificDropdown">
+                  <KingBedOutlinedIcon id="dropdownIcon" />
+                  <Form.Control
+                    required
+                    style={{
+                      fontSize: "12px",
+                    }}
+                    value={bedroomsFilter}
+                    type="number"
+                    placeholder="Bedroom"
+                    onChange={(e) => {
+                      setBedroomsFilter(e.target.value);
+                    }}
+                  />
+                </div>
+                <Form.Control.Feedback type="invalid">
+                  Please enter a bedroom number.
+                </Form.Control.Feedback>
+              </Col>
+              <Col>
+                <div id="specificDropdown">
+                  <ShowerOutlinedIcon id="dropdownIcon" />
+                  <Form.Control
+                    required
+                    style={{
+                      fontSize: "12px",
+                    }}
+                    value={bathroomsFilter}
+                    type="number"
+                    placeholder="Bathroom"
+                    onChange={(e) => {
+                      setBathroomsFilter(e.target.value);
+                    }}
+                  />
+                </div>
+                <Form.Control.Feedback type="invalid">
+                  Please enter a bathroom number.
+                </Form.Control.Feedback>
+              </Col>
 
-            <Col>
-              <div id="specificDropdown">
-                <SquareFootIcon id="dropdownIcon" />
-                <Form.Control
-                  style={{
-                    fontSize: "12px",
-                  }}
-                  value={area}
-                  type="number"
-                  placeholder="Square foot"
-                  onChange={(e) => {
-                    setArea(e.target.value);
-                  }}
-                />
-              </div>
-            </Col>
-            <Col>
-              <div id="specificDropdown">
-                <AttachMoneyIcon id="dropdownIcon" />
-                <Form.Control
-                  style={{
-                    fontSize: "12px",
-                  }}
-                  value={price}
-                  type="number"
-                  placeholder="Listing price"
-                  onChange={(e) => {
-                    setPrice(e.target.value);
-                  }}
-                />
-              </div>
-            </Col>
-            <Col>
-              <div id="specificDropdown">
-                <DateRangeIcon id="dropdownIcon" />
-                <Form.Control
-                  style={{
-                    fontSize: "12px",
-                  }}
-                  value={year}
-                  type="number"
-                  placeholder="Year built"
-                  onChange={(e) => {
-                    setYear(e.target.value);
-                  }}
-                />
-              </div>
-            </Col>
-          </Row>
+              <Col>
+                <div id="specificDropdown">
+                  <SquareFootIcon id="dropdownIcon" />
+                  <Form.Control
+                    required
+                    style={{
+                      fontSize: "12px",
+                    }}
+                    value={area}
+                    type="number"
+                    placeholder="Square foot"
+                    onChange={(e) => {
+                      setArea(e.target.value);
+                    }}
+                  />
+                </div>
+                <Form.Control.Feedback type="invalid">
+                  Please enter a valid number.
+                </Form.Control.Feedback>
+              </Col>
+              <Col>
+                <div id="specificDropdown">
+                  <AttachMoneyIcon id="dropdownIcon" />
+                  <Form.Control
+                    required
+                    style={{
+                      fontSize: "12px",
+                    }}
+                    value={price}
+                    type="number"
+                    placeholder="Listing price"
+                    onChange={(e) => {
+                      setPrice(e.target.value);
+                    }}
+                  />
+                </div>
+                <Form.Control.Feedback type="invalid">
+                  Please enter the price.
+                </Form.Control.Feedback>
+              </Col>
+              <Col>
+                <div id="specificDropdown">
+                  <DateRangeIcon id="dropdownIcon" />
+                  <Form.Control
+                    required
+                    style={{
+                      fontSize: "12px",
+                    }}
+                    value={year}
+                    type="number"
+                    placeholder="Year built"
+                    onChange={(e) => {
+                      setYear(e.target.value);
+                    }}
+                  />
+                </div>
+                <Form.Control.Feedback type="invalid">
+                  Please enter a valid year.
+                </Form.Control.Feedback>
+              </Col>
+            </Row>
+          </Form>
         </>
       )}
     </div>

@@ -36,31 +36,7 @@ function RentalEstimate({ onClickCompsRent }) {
             </Col>
           </Row>
           <div>
-            {/* <Row>
-              <Col></Col>
-              <Col style={{ fontWeight: "600", color: "#6b46c1" }}>
-                Property
-              </Col>
-              <Col
-                style={{
-                  fontWeight: "600",
-                  color: "#6b46c1",
-                  textAlign: "right",
-                }}
-              >
-                Comps
-              </Col>
-            </Row>
-            <Row>
-              <Col style={{ fontWeight: "600" }}>Price/Sqft:</Col>
-              <Col>$1.9</Col>
-              <Col style={{ textAlign: "right" }}>$2.2</Col>
-            </Row>
-            <Row>
-              <Col style={{ fontWeight: "600" }}>Count:</Col>
-              <Col></Col>
-              <Col style={{ textAlign: "right" }}>17</Col>
-            </Row> */}
+           
             <Table size="sm" responsive>
               <thead>
                 <tr style={{ color: "#6b46c1" }}>
@@ -73,7 +49,7 @@ function RentalEstimate({ onClickCompsRent }) {
                 <tr className="tableRow">
                   <td>Price/Sqft:</td>
                  
-                  <td>$N/A</td>
+                  <td>${Math.floor(result[10][1]["price/sqft"]*100)/100}</td>
                 </tr>
                 <tr className="tableRow">
                   <td>Count:</td>

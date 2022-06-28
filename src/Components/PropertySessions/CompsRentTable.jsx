@@ -44,15 +44,10 @@ const compsAvg = result[10][1]
           </Th>
 
           {SIMILARITY_TABLE_DATA.map((property, i) => {
+
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return (
-                <Th key={uuidv4()}>
-                  <img
-                    src={PropertyImgNotAvailable}
-                    width="100px"
-                    alt={"property"}
-                    className=""
-                  />
+                <Th key={uuidv4()}>Property {i+1}
                 </Th>
               );
           })}
@@ -69,11 +64,13 @@ const compsAvg = result[10][1]
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return (
                 <Td key={uuidv4()}>
-                  {Math.floor(property.similarity * 10) / 10}
+                  {Math.floor(property.normalized_distance * 1000) / 10}%
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {Math.floor(compsAvg.normalized_distance * 1000) / 10}%
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Address</Td>
@@ -81,7 +78,7 @@ const compsAvg = result[10][1]
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return (
                 <Td
-                  style={{ cursor: "pointer" }}
+                  id="addressCell"
                   key={uuidv4()}
                   onClick={() =>
                     handleShowCard(
@@ -117,11 +114,13 @@ const compsAvg = result[10][1]
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return (
                 <Td key={uuidv4()}>
-                  {numberWithCommas(property.building_size)}
+                  {numberWithCommas(property.building_area)}
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal">{numberWithCommas()}</Td>
+          <Td className="similarityTableTotal">
+            {numberWithCommas(compsAvg.building_area)}
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Bedrooms</Td>
@@ -130,7 +129,9 @@ const compsAvg = result[10][1]
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return <Td key={uuidv4()}>{property.bedrooms}</Td>;
           })}
-          <Td className="similarityTableTotal">{compsAvg.bedrooms}</Td>
+          <Td className="similarityTableTotal">
+            {Math.floor(compsAvg.bedrooms * 100) / 100}
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Bathrooms</Td>
@@ -199,12 +200,14 @@ const compsAvg = result[10][1]
                 <Td key={uuidv4()}>
                   {property.rental_price &&
                     `$${(
-                      property.rental_price / property.building_size
+                      property.rental_price / property.building_area
                     ).toFixed(1)}`}
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal">${}</Td>
+          <Td className="similarityTableTotal">
+            ${Math.floor(compsAvg["price/sqft"] * 100) / 100}
+          </Td>
         </Tr>
 
         <Tr className="tableRow">

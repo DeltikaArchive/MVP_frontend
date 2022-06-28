@@ -82,7 +82,7 @@ export default function MapPageN() {
   
 
   let pinStyle = {
-    fontSize: viewport.zoom * 2,
+    fontSize: viewport.zoom * 1.5,
     cursor: "pointer",
   };
 
@@ -118,6 +118,7 @@ export default function MapPageN() {
 
   function handleMarkerClick(id) {
     setPopupId(id);
+    
     // setViewport({ ...viewport, latitude: lat, longitude: long });
   }
 

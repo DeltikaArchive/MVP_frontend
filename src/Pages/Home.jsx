@@ -25,7 +25,7 @@ export default function Home() {
             </Col>
             <Col lg={5} className="pe-0">
             {/* <MapPage /> */}
-            <MapPageN/>
+            <MapPageN />
             </Col>
           </Row>
         </div>

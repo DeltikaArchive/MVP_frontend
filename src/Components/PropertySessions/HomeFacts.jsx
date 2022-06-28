@@ -56,8 +56,8 @@ function HomeFacts() {
           </Col>
         </Row>
         <Row>
-          <Col>Stories:</Col>
-          <Col className="text-end">{result[0].stories}</Col>
+          <Col>Floors:</Col>
+          <Col className="text-end">{result[0].floors}</Col>
         </Row>
         <Row>
           <Col>No. of Bedrooms:</Col>

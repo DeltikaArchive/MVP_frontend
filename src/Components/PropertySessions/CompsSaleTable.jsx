@@ -5,7 +5,8 @@ import {
   Tbody,
   Tr,
   Th,
-  Td
+  Td,
+  NumberInputStepper
 } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 import PropertyImgNotAvailable from "../../Images/PropertyImgNotAvailable.png";
@@ -33,15 +34,7 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
     setViewport({ ...viewport, latitude: lat, longitude: long });
   }
 
-  function dateFormat(dateString) { 
-    const dateNew = new Date(dateString);
-    return new Date(
-      dateNew.getFullYear(),
-      dateNew.getMonth(),
-      dateNew.getDate()
-    );
 
-  }
   return (
     <Table variant="simple" id="similarityTable" size="sm">
       <Thead>
@@ -57,12 +50,7 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return (
                 <Th key={uuidv4()}>
-                  <img
-                    src={PropertyImgNotAvailable}
-                    width="100px"
-                    alt={"property"}
-                    className=""
-                  />
+                  Property {i+1}
                 </Th>
               );
           })}
@@ -77,9 +65,15 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
           {/* <Td>{result && checkDataExist(result[0].similarity)}</Td> */}
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
-              return <Td key={uuidv4()}></Td>;
+              return (
+                <Td key={uuidv4()}>
+                  {Math.floor(property.normalized_distance * 1000) / 10}%
+                </Td>
+              );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {Math.floor(compsAvg.normalized_distance * 1000) / 10}%
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Address</Td>
@@ -88,11 +82,6 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
               return (
                 <Td
                   id="addressCell"
-                  style={{
-                    cursor: "pointer",
-                    fontSize: "12px",
-                    textAlign: "left",
-                  }}
                   key={uuidv4()}
                   onClick={() =>
                     handleShowCard(
@@ -126,18 +115,26 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
           {/* <Td>{result && checkDataExist(result[0].building_size)}</Td> */}
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
-              return <Td key={uuidv4()}>{numberWithCommas()}</Td>;
+              return (
+                <Td key={uuidv4()}>
+                  {numberWithCommas(property.building_area)}
+                </Td>
+              );
           })}
-          <Td className="similarityTableTotal">TOTAL</Td>
+          <Td className="similarityTableTotal">
+            {numberWithCommas(compsAvg.building_area)}
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Bedrooms</Td>
           {/* <Td>{result && checkDataExist(result[0].bedrooms)}</Td> */}
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
-              return <Td key={uuidv4()}></Td>;
+              return <Td key={uuidv4()}>{property.bedrooms}</Td>;
           })}
-          <Td className="similarityTableTotal">{compsAvg.bedrooms}</Td>
+          <Td className="similarityTableTotal">
+            {Math.floor(compsAvg.bedrooms * 100) / 100}
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Bathrooms</Td>
@@ -212,7 +209,11 @@ function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
           {/* <Td>{result && checkDataExist(result[0].rent)}</Td> */}
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
-              return <Td key={uuidv4()}>{property.date.slice(0, 10)}</Td>;
+              return (
+                <Td key={uuidv4()} style={{ fontSize: "12px" }}>
+                  {property.date.slice(0, 10)}
+                </Td>
+              );
           })}
           <Td className="similarityTableTotal"></Td>
         </Tr>

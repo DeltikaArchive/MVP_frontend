@@ -29,6 +29,7 @@ function Property() {
   } = useContext(AppContext);
   let navigate = useNavigate();
   const {
+    viewport, setViewport,
     loading,
     setCompsPins,
     result,
@@ -109,9 +110,19 @@ function Property() {
     setShowCompsSTR(true);
   }
 
-  
-  function handleClickSTRCount() {
-    setCompsPins();
+
+  function handleClickSTRCount(source_ids) {
+    const newIdsArray = source_ids.split(", ").map((e) => e.slice(1, -1));
+    console.log(newIdsArray);
+    const properties = result[9].filter((property) =>
+    newIdsArray.includes(property.source_id)
+    );
+    console.log(properties);
+    setViewport({ ...viewport, latitude: properties[0].latitude, longitude: properties[0].longitude });
+    setCompsPins(properties);
+     setShowCompsSale(false);
+     setShowCompsRent(false);
+     setShowCompsSTR(false);
   }
 
   return (
@@ -168,7 +179,7 @@ function Property() {
               className="propertySession-1"
               style={{ backgroundColor: "#00fedc19" }}
             >
-              <ShortTermRental onClickCompsSTR={handleClickCompsSTR} />
+              <ShortTermRental onClickCompsSTR={handleClickCompsSTR} onClickSTRCount={handleClickSTRCount} />
             </Col>
           </Row>
           {(showCompsSale || showCompsRent || showCompsSTR) && (

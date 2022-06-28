@@ -4,7 +4,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import Table from "react-bootstrap/Table";
 import { AppContext } from '../../Context/AppContext';
 import { numberWithCommas } from '../../lib/utilityFunctions';
-function ShortTermRental({ onClickCompsSTR}) {
+function ShortTermRental({ onClickCompsSTR, onClickSTRCount}) {
   const { result } = useContext(AppContext)
   const str = result[ 2 ]
    const adrTooltip = (props) => (
@@ -44,14 +44,7 @@ function ShortTermRental({ onClickCompsSTR}) {
        Number of properties in each tier
      </Tooltip>
    );
-  function handleShowSTRPins(source_ids) {
-    const newIdsArray = source_ids.split(", ").map((e) => e.slice(1, -1));
-    console.log(newIdsArray);
-    const properties = result[9].filter((property) =>
-      newIdsArray.includes(property.source_id)
-    );
-    console.log(properties);
-  }
+  
     return (
       <div>
         <div className="d-flex">
@@ -149,9 +142,8 @@ function ShortTermRental({ onClickCompsSTR}) {
                   <td>{Math.floor(str[3].arbitrage * 100) / 100}</td>
                   <td
                     id="STRCountCell"
-                    onClick={() => handleShowSTRPins(str[3].source_ids)}
+                    onClick={() => onClickSTRCount(str[3].source_ids)}
                   >
-                    {" "}
                     {str[3].count}
                   </td>
                 </tr>
@@ -166,7 +158,12 @@ function ShortTermRental({ onClickCompsSTR}) {
                     ${numberWithCommas(str[2].expected_st_monthly_income)}
                   </td>
                   <td>{Math.floor(str[2].arbitrage * 100) / 100}</td>
-                  <td>{str[2].count}</td>
+                  <td
+                    id="STRCountCell"
+                    onClick={() => onClickSTRCount(str[2].source_ids)}
+                  >
+                    {str[2].count}
+                  </td>
                 </tr>
                 <tr className="tableRow">
                   <td>
@@ -179,7 +176,12 @@ function ShortTermRental({ onClickCompsSTR}) {
                     ${numberWithCommas(str[1].expected_st_monthly_income)}
                   </td>
                   <td>{Math.floor(str[1].arbitrage * 100) / 100}</td>
-                  <td>{str[1].count}</td>
+                  <td
+                    id="STRCountCell"
+                    onClick={() => onClickSTRCount(str[1].source_ids)}
+                  >
+                    {str[1].count}
+                  </td>
                 </tr>
                 <tr className="tableRow">
                   <td>
@@ -192,7 +194,12 @@ function ShortTermRental({ onClickCompsSTR}) {
                     ${numberWithCommas(str[0].expected_st_monthly_income)}
                   </td>
                   <td>{Math.floor(str[0].arbitrage * 100) / 100}</td>
-                  <td>{str[0].count}</td>
+                  <td
+                    id="STRCountCell"
+                    onClick={() => onClickSTRCount(str[0].source_ids)}
+                  >
+                    {str[0].count}
+                  </td>
                 </tr>
               </tbody>
             </Table>

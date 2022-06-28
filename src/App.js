@@ -154,7 +154,10 @@ const [popupId, setPopupId] = useState(null);
   return (
     <AppContext.Provider
       value={{
-        result, setResult,popupId,setPopupId,
+        result,
+        setResult,
+        popupId,
+        setPopupId,
         loggedInUser,
         setLoggedInUser,
         openMoreFilters,
@@ -201,36 +204,36 @@ const [popupId, setPopupId] = useState(null);
       }}
     >
       <ChakraProvider>
-        <BrowserRouter>
-          <div className="App">
-            <Routes>
-              <Route path="/login-signup" element={<Welcome />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/map" element={<MapPage />} />
-              <Route path="/" element={<Home />}>
-                <Route
-                  key={uuidv4()}
-                  path={`/filters/0`}
-                  element={<Filters filters={arrayOfFilters[0]} />}
-                />
-                {arrayOfFilters.map((element) => {
-                  return (
-                    <Route
-                      key={uuidv4()}
-                      path={`/filters/${element.route}`}
-                      element={<Filters filters={element} />}
-                    />
-                  );
-                })}
-                <Route path="/" element={<SavedFiltersList />} />
-                <Route path="/search" element={<Property />} />
-                {/* <Route path="/property" element={<PropertyRes />} /> */}
-                {/* <Route path="/property" element={<Property />} /> */}
-              </Route>
-              <Route path="/macro" element={<Macro />} />
-            </Routes>
-          </div>
-        </BrowserRouter>
+          <BrowserRouter>
+            <div className="App">
+              <Routes>
+                <Route path="/login-signup" element={<Welcome />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/map" element={<MapPage />} />
+                <Route path="/" element={<Home />}>
+                  <Route
+                    key={uuidv4()}
+                    path={`/filters/0`}
+                    element={<Filters filters={arrayOfFilters[0]} />}
+                  />
+                  {arrayOfFilters.map((element) => {
+                    return (
+                      <Route
+                        key={uuidv4()}
+                        path={`/filters/${element.route}`}
+                        element={<Filters filters={element} />}
+                      />
+                    );
+                  })}
+                  <Route path="/" element={<SavedFiltersList />} />
+                  <Route path="/search" element={<Property />} />
+                  {/* <Route path="/property" element={<PropertyRes />} /> */}
+                  {/* <Route path="/property" element={<Property />} /> */}
+                </Route>
+                <Route path="/macro" element={<Macro />} />
+              </Routes>
+            </div>
+          </BrowserRouter>
       </ChakraProvider>
     </AppContext.Provider>
   );

@@ -65,12 +65,7 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return (
                 <Th key={uuidv4()}>
-                  <img
-                    src={PropertyImgNotAvailable}
-                    width="100px"
-                    alt={"property"}
-                    className=""
-                  />
+                 Property {i+1}
                 </Th>
               );
           })}
@@ -87,11 +82,13 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return (
                 <Td key={uuidv4()}>
-                  {/* {Math.floor(property.similarity * 10) / 10} */}
+                  {Math.floor(property.normalized_distance * 1000) / 10}%
                 </Td>
               );
           })}
-          <Td className="similarityTableTotal"></Td>
+          <Td className="similarityTableTotal">
+            {Math.floor(compsAvg.normalized_distance * 1000) / 10}%
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">Address</Td>
@@ -99,7 +96,7 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return (
                 <Td
-                  style={{ cursor: "pointer" }}
+                  id="addressCell"
                   key={uuidv4()}
                   onClick={() =>
                     handleShowCard(
@@ -115,28 +112,7 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
           })}
           <Td className="similarityTableTotal"></Td>
         </Tr>
-        {/* <Tr className="tableRow">
-          <Td className="leftCell">Lot size (sqft)</Td>
-          {SIMILARITY_TABLE_DATA.map((property, i) => {
-            if (i >= tableMarker && i < tableMarker + tableColumns)
-              return (
-                <Td key={uuidv4()}>{numberWithCommas(property.lot_size)}</Td>
-              );
-          })}
-          <Td className="similarityTableTotal">TOTAL</Td>
-        </Tr>
-        <Tr className="tableRow">
-          <Td className="leftCell">Building size</Td>
-          {SIMILARITY_TABLE_DATA.map((property, i) => {
-            if (i >= tableMarker && i < tableMarker + tableColumns)
-              return (
-                <Td key={uuidv4()}>
-                  {numberWithCommas(property.building_area)}
-                </Td>
-              );
-          })}
-          <Td className="similarityTableTotal">TOTAL</Td>
-        </Tr> */}
+
         <Tr className="tableRow">
           <Td className="leftCell">Bedrooms</Td>
           {/* <Td>{result && checkDataExist(result[0].bedrooms)}</Td> */}
@@ -164,14 +140,6 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
             {Math.floor(compsAvg.full_bathrooms * 100) / 100}
           </Td>
         </Tr>
-        {/* <Tr className="tableRow">
-          <Td className="leftCell">Floors</Td>
-          {SIMILARITY_TABLE_DATA.map((property, i) => {
-            if (i >= tableMarker && i < tableMarker + tableColumns)
-              return <Td key={uuidv4()}>{property.floors}</Td>;
-          })}
-          <Td className="similarityTableTotal">TOTAL</Td>
-        </Tr> */}
 
         <Tr className="tableRow">
           <Td className="leftCell">
@@ -194,9 +162,11 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
           {/* <Td>{result && checkDataExist(result[0].ADR)}</Td> */}
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
-              return <Td key={uuidv4()}>${numberWithCommas(property.adr)}</Td>;
+              return <Td key={uuidv4()}>${numberWithCommas(property.ADR)}</Td>;
           })}
-          <Td className="similarityTableTotal">{compsAvg.adr}</Td>
+          <Td className="similarityTableTotal">
+            ${numberWithCommas(compsAvg.ADR)}
+          </Td>
         </Tr>
         <Tr className="tableRow">
           <Td className="leftCell">

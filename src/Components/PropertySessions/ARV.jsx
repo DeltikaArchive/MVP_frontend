@@ -15,7 +15,7 @@ function ARV({ onClickCompsSale }) {
   );
   const marginTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-      ARV- Listing price - expected expanses
+      ARV - Listing price - expected expanses
     </Tooltip>
   );
   
@@ -41,7 +41,7 @@ function ARV({ onClickCompsSale }) {
             ${numberWithCommas(Math.floor(arv.arv))}
           </Col>
           <Col style={{ textAlign: "right", fontSize: "15px" }}>
-            <p>{Math.floor(arv["diff_%"] * 10000)/100}% Margin</p>
+            <p>{Math.floor(arv["diff_%"] * 10000) / 100}% Margin</p>
             <p
               style={
                 arv["diff"] >= 0
@@ -55,7 +55,7 @@ function ARV({ onClickCompsSale }) {
                     }
               }
             >
-              {Math.floor(arv["diff"] / 1000)}K{" "}
+              {numberWithCommas(arv["diff"])}${" "}
               <OverlayTrigger
                 placement="bottom"
                 delay={{ show: 250, hide: 400 }}
@@ -78,23 +78,24 @@ function ARV({ onClickCompsSale }) {
             <thead>
               <tr style={{ color: "#6b46c1", textAlign: "left" }}>
                 <th></th>
-                
+                <th>Property</th>
                 <th>Comps</th>
               </tr>
             </thead>
             <tbody>
               <tr className="tableRow">
                 <td>Price/Sqft:</td>
-
-                <td>N/A</td>
+                <td>${numberWithCommas(result[0].listing_price/result[0].building_size)}</td>
+                <td>${numberWithCommas(result[10][0]["price/sqft"])}</td>
               </tr>
               <tr className="tableRow">
                 <td>Avg.DOM:</td>
-             
+                <td></td>
                 <td>N/A days</td>
               </tr>
               <tr className="tableRow">
                 <td>Count:</td>
+                <td></td>
                 <td>{arv["properties_count"]}</td>
               </tr>
             </tbody>

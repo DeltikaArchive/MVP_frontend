@@ -23,13 +23,13 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import SwitchSelector from "react-switch-selector";
 import { numberWithCommas } from "../lib/utilityFunctions";
-import {
-  Slider,
-  SliderFilledTrack,
-  SliderTrack,
-  SliderThumb,
-} from "@chakra-ui/react";
-import { fabClasses } from "@mui/material";
+import { Slider } from "@mui/material";
+// import {
+//   Slider,
+//   SliderFilledTrack,
+//   SliderTrack,
+//   SliderThumb,
+// } from "@chakra-ui/react";
 
 function SearchBarN() {
   let navigate = useNavigate();
@@ -59,7 +59,7 @@ function SearchBarN() {
   const [price, setPrice] = useState("");
   const [year, setYear] = useState("");
   const [MLS, setMLS] = useState("");
-  const [range, setRange] = useState(200);
+  const [range, setRange] = useState(30);
   const [addressSearch, setAddressSearch] = useState(false);
   const [mlsError, setMlsError] = useState(false);
   const [emptyField, setEmptyField] = useState(false);
@@ -269,13 +269,16 @@ function SearchBarN() {
               Please fill up property information:
             </Col>
           </Row>
-          <Form noValidate validated={validated} >
+          <Form noValidate validated={validated}>
             <Row className="mb-3 w-75">
               <Col xs={5}>
                 <InputGroup className=" d-flex align-items-center">
                   <MapIcon id="dropdownIcon" />
                   <Form.Control
                     required
+                    min={0}
+                    max={100}
+                    step={1}
                     value={address}
                     type="text"
                     placeholder="Enter an address"
@@ -302,6 +305,14 @@ function SearchBarN() {
                     Range:
                   </Form.Label>
                   <Slider
+                    aria-label="Temperature"
+                    defaultValue={200}
+                    value={range}
+                    // getAriaValueText={valuetext}
+                    style={{ color: "#6b47c1" }}
+                    onChange={(e) => setRange(e.target.value)}
+                  />
+                  {/* <Slider
                     defaultValue={range}
                     colorScheme="purple"
                     onChange={(val) => setRange(val)}
@@ -312,7 +323,7 @@ function SearchBarN() {
                       <SliderFilledTrack />
                     </SliderTrack>
                     <SliderThumb index={0} className="rangeSliderThumb" />
-                  </Slider>
+                  </Slider> */}
                   <Form.Label className="ms-3 mb-0" sm="4" id="sliderLabel">
                     {numberWithCommas(range)} Miles
                   </Form.Label>

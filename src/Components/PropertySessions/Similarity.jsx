@@ -5,6 +5,7 @@ import { Col, Tooltip, OverlayTrigger } from "react-bootstrap";
 import CompsSaleTable from "./CompsSaleTable";
 import CompsRentTable from "./CompsRentTable";
 import CompsSTRTable from "./CompsSTRTable";
+import Comps from "./Comps";
 
 function Similarity({ compsSale, compsRent, compsSTR }) {
     const { result } = useContext(AppContext);
@@ -48,6 +49,7 @@ function Similarity({ compsSale, compsRent, compsSTR }) {
             &nbsp;Similarity Analytics
           </h6>
         </div>
+        {/* <Comps/> */}
         {compsSale && (
           <p
             style={{

@@ -9,6 +9,7 @@ import ShowerOutlinedIcon from "@mui/icons-material/ShowerOutlined";
 import BedIcon from "@mui/icons-material/Bed";
 import SquareFootIcon from "@mui/icons-material/SquareFoot";
 import PinDropIcon from "@mui/icons-material/PinDrop";
+import Alert from '@mui/material/Alert';
 import {
   Button,
   Collapse,
@@ -16,13 +17,7 @@ import {
   OverlayTrigger,
   Tooltip,
 } from "react-bootstrap";
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
-  Link,
-} from "@chakra-ui/react";
+
 
 function PopupCardN({ pin }) {
   const { showCompsSale, showCompsRent, showCompsSTR } = useContext(AppContext);
@@ -157,7 +152,7 @@ function PopupCardN({ pin }) {
             <span
               style={{ color: "#fe0061", fontSize: "13px", fontWeight: "600" }}
             >
-              {Math.floor(pin.similarity * 10000) / 100}% similar
+              {Math.floor(pin.normalized_distance * 10000) / 100}% similar
             </span>
           )}
         </Card.Title>
@@ -193,31 +188,36 @@ function PopupCardN({ pin }) {
               <ShowerOutlinedIcon fontSize="small" /> {pin.full_bathrooms} Baths
             </span>
           )}
-          {!showCompsSale &&!showCompsRent && <Button
-            className="py-0 px-1 ms-2"
-            size="sm"
-            variant="outline-dark"
-            href="https://www.airbnb.com"
-          >
-            {" "}
-            view on airbnb
-          </Button>}
+          {!showCompsSale && !showCompsRent && !pin.listing_price && (
+            <Button
+              target="_blank"
+              className="py-0 px-1 ms-2"
+              size="sm"
+              variant="outline-dark"
+              href="https://www.airbnb.com"
+            >
+              {" "}
+              view on airbnb
+            </Button>
+          )}
         </Card.Text>
         <Card.Text
           style={{ fontSize: "11px", textAlign: "left", marginTop: "8px" }}
         >
           <PinDropIcon fontSize="small" /> {pin.address}
         </Card.Text>
-        {<Button
-          className="mt-2"
-          variant="primary"
-          size="sm"
-          onClick={() => setShowRating(!showRating)}
-          aria-controls="example-collapse-text"
-          aria-expanded={showRating}
-        >
-          Rate it!
-        </Button>}
+        {!pin.listing_price && (
+          <Button
+            className="mt-2"
+            variant="primary"
+            size="sm"
+            onClick={() => setShowRating(!showRating)}
+            aria-controls="example-collapse-text"
+            aria-expanded={showRating}
+          >
+            Rate it!
+          </Button>
+        )}
       </Card.Body>
       {!pin.listing_price && showRating && (
         <Card.Footer>
@@ -243,30 +243,10 @@ function PopupCardN({ pin }) {
                 {ratingOnHover === 5 && <p>Very similar!</p>}
 
                 {showAlert && (
-                  <Alert
-                    status="success"
-                    variant="subtle"
-                    className="mt-2"
-                    style={{ borderRadius: "10px", backgroundColor: "inherit" }}
-                  >
-                    <AlertIcon />
-                    Thank you for the rating!
+                  <Alert className="mt-2" severity="success">
+                    Thank you for the rating!!
                   </Alert>
                 )}
-                {/* <Alert
-                  status="success"
-                  variant="subtle"
-                  flexDirection="column"
-                  alignItems="center"
-                  justifyContent="center"
-                  textAlign="center"
-                  height="80px"
-                >
-                  <AlertIcon boxSize="25px" mr={0} />
-                  <AlertTitle mt={2} mb={1} fontSize="sm">
-                    Rating submitted!
-                  </AlertTitle>
-                </Alert> */}
               </div>
             </Fade>
           </>

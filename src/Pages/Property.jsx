@@ -1,4 +1,3 @@
-import { Divider } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
 import React, { useContext, useEffect, useState } from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
@@ -12,7 +11,6 @@ import RentalEstimate from "../Components/PropertySessions/RentalEstimate";
 import Risks from "../Components/PropertySessions/Risks";
 import ShortTermRental from "../Components/PropertySessions/ShortTermRental";
 import Similarity from "../Components/PropertySessions/Similarity";
-import SearchBarN from "../Components/SearchBarN";
 import { AppContext } from "../Context/AppContext";
 import { auth } from "../firebase-config";
 import { getPropertyById, getPropertyByOwner } from "../lib/propertiesDB";

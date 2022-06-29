@@ -343,7 +343,7 @@ export default function MapPageN() {
             })}
           <NavigationControl />
         </Map>
-        <div className="d-flex justify-content-between">
+        {/* <div className="d-flex justify-content-between">
           <div onClick={(e) => setShowMapDrawer(true)}>
             <TocIcon id="filterIcon" fontSize="inherit" />
             <span>Filters</span>
@@ -377,7 +377,7 @@ export default function MapPageN() {
           setShowRestaurants={setShowRestaurants}
           showSuperMarkets={showSuperMarkets}
           setShowSuperMarkets={setShowSuperMarkets}
-        />
+        />*/}
       </div>
     </>
   );

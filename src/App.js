@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AppContext } from "./Context/AppContext";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Home from "./Pages/Home";
@@ -23,6 +23,11 @@ import axios from "axios";
 import { URLrequests } from "./config";
 import Property from "./Pages/Property";
 import MainNavbar from "./Components/MainNavbar";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+
+const muiTheme = createTheme();
+const theme = extendTheme();
 
 function App() {
    const [showCompsSale, setShowCompsSale] = useState(false);
@@ -203,7 +208,8 @@ const [popupId, setPopupId] = useState(null);
         checkedFilters,
       }}
     >
-      <ChakraProvider>
+      <ChakraProvider theme={theme} resetCSS>
+        <ThemeProvider theme={muiTheme}>
           <BrowserRouter>
             <div className="App">
               <Routes>
@@ -234,6 +240,7 @@ const [popupId, setPopupId] = useState(null);
               </Routes>
             </div>
           </BrowserRouter>
+        </ThemeProvider>
       </ChakraProvider>
     </AppContext.Provider>
   );

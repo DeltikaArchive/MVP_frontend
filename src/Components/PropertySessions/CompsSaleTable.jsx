@@ -14,6 +14,7 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { numberWithCommas } from "../../lib/utilityFunctions";
 import { AppContext } from "../../Context/AppContext";
+import { DataGrid } from "@mui/x-data-grid";
 
 
 function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {

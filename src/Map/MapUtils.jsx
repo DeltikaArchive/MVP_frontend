@@ -1,18 +1,18 @@
 export const STARTING_MAP_ZOOM = 9;
 
 //Houston
-// export const MAP_VIEWPORT = {
-//   latitude: 29.76045,
-//   longitude: -95.36978,
-//   zoom: STARTING_MAP_ZOOM,
-// };
-
-// Los Angeles
 export const MAP_VIEWPORT = {
-  latitude: 34.0522,
-  longitude: -118.2437,
+  latitude: 29.76045,
+  longitude: -95.36978,
   zoom: STARTING_MAP_ZOOM,
 };
+
+// Los Angeles
+// export const MAP_VIEWPORT = {
+//   latitude: 34.0522,
+//   longitude: -118.2437,
+//   zoom: STARTING_MAP_ZOOM,
+// };
 
 // whole US
 // export const STARTING_MAP_ZOOM = 3.4;

@@ -45,6 +45,29 @@ export const getAllPropertiesByMLS = async (MLS) => {
   }
 };
 
+export const addRating = async (ratingObj) => {
+  try {
+    const response = await axios.post(
+      `${URLrequests}/rating`,
+      ratingObj
+    );
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getRating = async (user_uid, property_id) => {
+  try {
+    const response = await axios.get(
+      `${URLrequests}/rating/${user_uid}/${property_id}`
+    );
+    return response.data[0]
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
 export const getPropertyById = (id) => {
   //   console.log("axios", id);
   return axios
@@ -54,6 +77,7 @@ export const getPropertyById = (id) => {
     })
     .catch((error) => console.log(error.response));
 };
+
 
 export const getPropertyByOwner = (owner) => {
   return axios

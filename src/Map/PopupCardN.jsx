@@ -17,10 +17,11 @@ import {
   OverlayTrigger,
   Tooltip,
 } from "react-bootstrap";
+import { addRating, getRating } from "../lib/propertiesDB";
 
 
 function PopupCardN({ pin }) {
-  const { showCompsSale, showCompsRent, showCompsSTR } = useContext(AppContext);
+  const { showCompsSale, showCompsRent, showCompsSTR, loggedInUser } = useContext(AppContext);
   const { result } = useContext(AppContext);
   const [rating, setRating] = useState(0);
   const [ratingOnHover, setRatingOnHover] = useState(0);
@@ -47,19 +48,40 @@ function PopupCardN({ pin }) {
   async function handleClickRating(value) {
     setRating(value);
     setShowAlert(true);
+    const ratingObj = {
+      user_uid: loggedInUser.uid,
+      property_source_id: pin.source_id,
+      rating_score: value,
+    };
+    await addRating(ratingObj);
     await wait(1500).then(() => setShowAlert(false));
     await wait(0).then(() => setShowRating(false));
     setShowRating(false);
   }
-  function handleRatingChange(value) {
-    console.log(value);
-    setRating(value);
-  }
+
+  // function handleRatingChange(value) {
+  //   console.log(value);
+  //   setRating(value);
+  // }
 
   function handleHovering(value) {
     setRatingOnHover(value);
   }
+  console.log(rating);
+  console.log(pin.source_id);
 
+  useEffect(() => { 
+    async function getPopupCardRating() { 
+      try {
+        const res = await getRating(loggedInUser.uid, pin.source_id); 
+        setRating(res.rating_score)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getPopupCardRating();
+  }, [ loggedInUser, pin ])
+  
   return (
     <Card style={{ width: "20rem" }}>
       {/* {pin.IMG ? (
@@ -234,7 +256,7 @@ function PopupCardN({ pin }) {
                   fullSymbol={<StarIcon />}
                   onClick={handleClickRating}
                   onHover={handleHovering}
-                  onChange={handleRatingChange}
+                  // onChange={handleRatingChange}
                 />
                 {ratingOnHover === 1 && <p>Not similar at all</p>}
                 {ratingOnHover === 2 && <p>A little bit similar</p>}

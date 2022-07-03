@@ -4,6 +4,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import Table from "react-bootstrap/Table";
 import { AppContext } from '../../Context/AppContext';
 import { numberWithCommas } from '../../lib/utilityFunctions';
+import TrendChart from './TrendChart';
 function ShortTermRental({ onClickCompsSTR, onClickSTRCount}) {
   const { result } = useContext(AppContext)
   const str = result[ 2 ]
@@ -214,6 +215,7 @@ function ShortTermRental({ onClickCompsSTR, onClickSTRCount}) {
             </Button>
           </Row>
         </div>
+        <TrendChart/>
       </div>
     );
 }

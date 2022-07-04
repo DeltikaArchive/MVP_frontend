@@ -74,7 +74,9 @@ function PopupCardN({ pin }) {
     async function getPopupCardRating() { 
       try {
         const res = await getRating(loggedInUser.uid, pin.source_id); 
-        setRating(res.rating_score)
+        if (res) { 
+          setRating(res.rating_score)
+        }
       } catch (error) {
         console.log(error)
       }

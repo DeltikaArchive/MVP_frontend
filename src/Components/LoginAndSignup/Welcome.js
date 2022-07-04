@@ -40,22 +40,27 @@ const Welcome = () => {
   const [loginPassword, setLoginPassword] = useState("");
 
   useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setLoggedInUser(currentUser);
     });
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   const handleRegister = async () => {
     try {
-      const user = await createUserWithEmailAndPassword(
+      const userCredential = await createUserWithEmailAndPassword(
         auth,
         registerEmail,
         registerPassword
       );
+       const user = userCredential.user;
       await handleUsersDbPOST(auth.currentUser);
       console.log("THIS IS AUTH.CURRENTUSER");
       console.log(auth.currentUser);
-      setLoggedInUser(auth.currentUser);
+      console.log(user);
+      // setLoggedInUser(auth.currentUser);
       updateProfile(auth.currentUser, {
         displayName: userName,
       });
@@ -64,18 +69,20 @@ const Welcome = () => {
         window.location.reload(false);
       }, 2000);
     } catch (error) {
+      console.log(error.message)
       toast.error("Can't register. Check your email or password.");
     }
   };
 
   const handleLogin = async () => {
     try {
-      const user = await signInWithEmailAndPassword(
+      const userCredential = await signInWithEmailAndPassword(
         auth,
         loginEmail,
         loginPassword
       );
-      setLoggedInUser(auth.currentUser);
+      const user = userCredential.user;
+      setLoggedInUser(user);
       navigate("../", { replace: true });
     } catch (error) {
       toast.error("Wrong email or password.");

@@ -215,7 +215,7 @@ function ShortTermRental({ onClickCompsSTR, onClickSTRCount}) {
             </Button>
           </Row>
         </div>
-        <TrendChart/>
+        {/* <TrendChart/> */}
       </div>
     );
 }

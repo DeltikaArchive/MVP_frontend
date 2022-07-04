@@ -14,6 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { URLrequests } from "../../config";
 
 const Welcome = () => {
   const {
@@ -55,9 +56,13 @@ const Welcome = () => {
         registerEmail,
         registerPassword
       );
-       const user = userCredential.user;
-      await handleUsersDbPOST(auth.currentUser);
-      console.log("THIS IS AUTH.CURRENTUSER");
+      const user = userCredential.user;
+      const userObj = {
+        user_uid: user.uid,
+        email: user.email
+      }
+      await addNewUser(userObj);
+      // await handleUsersDbPOST(auth.currentUser);
       console.log(auth.currentUser);
       console.log(user);
       // setLoggedInUser(auth.currentUser);
@@ -73,6 +78,17 @@ const Welcome = () => {
       toast.error("Can't register. Check your email or password.");
     }
   };
+
+  // should be put in the api/service file
+  async function addNewUser(userObj) {
+    try {
+      const res = await axios.post(`${URLrequests}/users`, userObj)
+      console.log(res.data)
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
 
   const handleLogin = async () => {
     try {

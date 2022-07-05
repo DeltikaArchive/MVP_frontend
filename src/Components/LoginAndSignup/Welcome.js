@@ -40,14 +40,15 @@ const Welcome = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setLoggedInUser(currentUser);
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+  //     console.log(currentUser)
+  //     setLoggedInUser(currentUser);
+  //   });
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, []);
 
   const handleRegister = async () => {
     try {
@@ -59,8 +60,8 @@ const Welcome = () => {
       const user = userCredential.user;
       const userObj = {
         user_uid: user.uid,
-        email: user.email
-      }
+        email: user.email,
+      };
       await addNewUser(userObj);
       // await handleUsersDbPOST(auth.currentUser);
       console.log(auth.currentUser);
@@ -74,7 +75,7 @@ const Welcome = () => {
         window.location.reload(false);
       }, 2000);
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
       toast.error("Can't register. Check your email or password.");
     }
   };
@@ -82,12 +83,21 @@ const Welcome = () => {
   // should be put in the api/service file
   async function addNewUser(userObj) {
     try {
-      const res = await axios.post(`${URLrequests}/users`, userObj)
-      console.log(res.data)
+      const res = await axios.post(`${URLrequests}/users`, userObj);
+      console.log(res.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-
+  }
+  // should be put in the api/service file
+  async function getUser(user_uid) {
+    try {
+      const res = await axios.get(`${URLrequests}/users/${user_uid}`);
+      console.log(res.data)
+      return res.data[0].is_verified;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const handleLogin = async () => {
@@ -98,8 +108,14 @@ const Welcome = () => {
         loginPassword
       );
       const user = userCredential.user;
-      setLoggedInUser(user);
-      navigate("../", { replace: true });
+      const isVerified = await getUser(user.uid);
+      if (isVerified) {
+        setLoggedInUser(user);
+        navigate("../", { replace: true });
+      } else { 
+        setLoggedInUser(null);
+        toast.error("Can't login. Ask for the permission first!");
+      }
     } catch (error) {
       toast.error("Wrong email or password.");
     }

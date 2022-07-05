@@ -20,14 +20,13 @@ function MainNavbar() {
   const { loggedInUser, setViewport, setMapZoom } = useContext(AppContext);
   const navigate = useNavigate();
 
-  //   const { activeUser, onModalShow, onLogout } = useAuth();
-
   const logout = async () => {
  const auth = getAuth();
     await signOut(auth);
     setViewport(MAP_VIEWPORT);
     setMapZoom(STARTING_MAP_ZOOM);
-    window.location.reload(false);
+    navigate('/login-signup')
+    // window.location.reload(false);
   };
   return (
     <Navbar

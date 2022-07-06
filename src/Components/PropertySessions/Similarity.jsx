@@ -12,11 +12,11 @@ function Similarity({ compsSale, compsRent, compsSTR }) {
     
   let SIMILARITY_TABLE_DATA = [];
   if (compsSale) {
-    SIMILARITY_TABLE_DATA = result[7];
+    SIMILARITY_TABLE_DATA = result.sales_comps;
   } else if (compsRent) {
-    SIMILARITY_TABLE_DATA = result[8];
+    SIMILARITY_TABLE_DATA = result.rent_comps;
   } else {
-    SIMILARITY_TABLE_DATA = result[9];
+    SIMILARITY_TABLE_DATA = result.st_comps;
   }
 
    const renderTooltip = (props) => (

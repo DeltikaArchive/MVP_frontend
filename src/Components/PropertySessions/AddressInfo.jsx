@@ -18,7 +18,7 @@ function AddressInfo() {
               style={{ fontWeight: "600", textAlign: "center" }}
             >
               <i>
-                {result[0].address}
+                {result.info.address}
               </i>
             </h5>
           </Row>

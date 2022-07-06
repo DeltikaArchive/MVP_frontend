@@ -13,7 +13,7 @@ function Risks() {
     },
     {
       type: "Flood zone",
-      level: `${result[3]["flood_zone"]}`,
+      level: `${result.risk.flood_zone}`,
     },
     {
       type: "Crime score",

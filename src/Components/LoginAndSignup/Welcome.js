@@ -14,7 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { URLrequests } from "../../config";
+import { URLUsersRequests } from "../../config";
 
 const Welcome = () => {
   const {
@@ -64,15 +64,14 @@ const Welcome = () => {
       };
       await addNewUser(userObj);
       // await handleUsersDbPOST(auth.currentUser);
-      console.log(auth.currentUser);
-      console.log(user);
+      
       // setLoggedInUser(auth.currentUser);
       updateProfile(auth.currentUser, {
         displayName: userName,
       });
       toast.success(`Registered successfully! Please sign in.`);
       setTimeout(() => {
-        window.location.reload(false);
+        setIsContainerActive(false);
       }, 2000);
     } catch (error) {
       console.log(error.message);
@@ -83,8 +82,8 @@ const Welcome = () => {
   // should be put in the api/service file
   async function addNewUser(userObj) {
     try {
-      const res = await axios.post(`${URLrequests}/users`, userObj);
-      console.log(res.data);
+      const res = await axios.post(`${URLUsersRequests}/users`, userObj);
+
     } catch (error) {
       console.log(error);
     }
@@ -92,8 +91,8 @@ const Welcome = () => {
   // should be put in the api/service file
   async function getUser(user_uid) {
     try {
-      const res = await axios.get(`${URLrequests}/users/${user_uid}`);
-      console.log(res.data)
+      const res = await axios.get(`${URLUsersRequests}/users/${user_uid}`);
+
       return res.data[0].is_verified;
     } catch (error) {
       console.log(error);

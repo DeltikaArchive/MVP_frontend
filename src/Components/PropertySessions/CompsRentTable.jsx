@@ -17,7 +17,7 @@ import { AppContext } from "../../Context/AppContext";
 function CompsRentTable({ SIMILARITY_TABLE_DATA }) {
     const { popupId, setPopupId, viewport, setViewport, result } =
       useContext(AppContext);
-const compsAvg = result[10][1]
+  const compsAvg = result.avgs[ 1 ];
   const [tableMarker, setTableMarker] = useState(0);
   const tableColumns = 5;
   const handleTableLeft = () => {
@@ -44,12 +44,8 @@ const compsAvg = result[10][1]
           </Th>
 
           {SIMILARITY_TABLE_DATA.map((property, i) => {
-
             if (i >= tableMarker && i < tableMarker + tableColumns)
-              return (
-                <Th key={uuidv4()}>Property {i+1}
-                </Th>
-              );
+              return <Th key={uuidv4()}>Property {i + 1}</Th>;
           })}
           <Th className="text-center purpleFont font-weight-bold">
             Comps only AVG.
@@ -64,12 +60,12 @@ const compsAvg = result[10][1]
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return (
                 <Td key={uuidv4()}>
-                  {Math.floor(property.normalized_distance * 1000) / 10}%
+                  {Math.floor(property.normalized_similarity * 1000) / 10}%
                 </Td>
               );
           })}
           <Td className="similarityTableTotal">
-            {Math.floor(compsAvg.normalized_distance * 1000) / 10}%
+            {Math.floor(compsAvg.normalized_similarity * 1000) / 10}%
           </Td>
         </Tr>
         <Tr className="tableRow">
@@ -210,15 +206,14 @@ const compsAvg = result[10][1]
           </Td>
         </Tr>
 
-        <Tr className="tableRow">
+        {/* <Tr className="tableRow">
           <Td className="leftCell">Status</Td>
-          {/* <Td>{result && checkDataExist(result[0].status)}</Td> */}
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return <Td key={uuidv4()}>{property.status}</Td>;
           })}
           <Td className="similarityTableTotal"></Td>
-        </Tr>
+        </Tr> */}
 
         <Tr className="tableRow">
           <Td className="leftCell">Distance from subject</Td>

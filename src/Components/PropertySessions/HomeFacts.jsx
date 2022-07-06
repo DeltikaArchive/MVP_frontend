@@ -5,6 +5,7 @@ import { AppContext } from "../../Context/AppContext";
 import { numberWithCommas } from "../../lib/utilityFunctions";
 function HomeFacts() {
   const { result } = useContext(AppContext);
+  const info = result.info;
   const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       Current property details taken from the assessment.
@@ -28,48 +29,48 @@ function HomeFacts() {
         <Row style={{ color: "#6b46c1", fontWeight: "600" }}>
           <Col>Listing Price</Col>
           <Col className="text-end">
-            $ {numberWithCommas(result[0].listing_price)}
+            $ {numberWithCommas(info.listing_price)}
           </Col>
         </Row>
         <Row>
           <Col>MLS #: </Col>
-          <Col className="text-end">{result[0].MLS_Number}</Col>
+          <Col className="text-end">{info["MLS Number"]}</Col>
         </Row>
         <Row>
           <Col>Property Type:</Col>
-          <Col className="text-end">{result[0].property_type}</Col>
+          <Col className="text-end">{info.property_type}</Col>
         </Row>
         <Row>
           <Col>Year Built:</Col>
-          <Col className="text-end">{result[0].year_built}</Col>
+          <Col className="text-end">{info.year_built}</Col>
         </Row>
         <Row>
           <Col>Lot Size:</Col>
           <Col className="text-end">
-            {numberWithCommas(result[0].lot_size)} Sqft.
+            {numberWithCommas(info.lot_size)} Sqft.
           </Col>
         </Row>
         <Row>
           <Col>Building Size:</Col>
           <Col className="text-end">
-            {numberWithCommas(result[0].building_size)} Sqft.
+            {numberWithCommas(info.building_area)} Sqft.
           </Col>
         </Row>
         <Row>
           <Col>Floors:</Col>
-          <Col className="text-end">{result[0].floors}</Col>
+          <Col className="text-end">{info.floors}</Col>
         </Row>
         <Row>
           <Col>No. of Bedrooms:</Col>
-          <Col className="text-end">{result[0].bedrooms}</Col>
+          <Col className="text-end">{info.bedrooms}</Col>
         </Row>
         <Row>
           <Col>Full Bathrooms:</Col>
-          <Col className="text-end">{result[0].full_bathrooms}</Col>
+          <Col className="text-end">{info.full_bathrooms}</Col>
         </Row>
         <Row>
           <Col>Half Bathrooms:</Col>
-          <Col className="text-end">{result[0].half_bathrooms}</Col>
+          <Col className="text-end">{info.half_bathrooms}</Col>
         </Row>
       </div>
     </div>

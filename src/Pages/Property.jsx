@@ -88,21 +88,21 @@ function Property() {
   }, [selectedId, setSelectedProperty]);
 
   function handleClickCompsSale() {
-    setCompsPins(result[7]);
+    setCompsPins(result.sales_comps);
     setShowCompsSale(true);
     setShowCompsRent(false);
     setShowCompsSTR(false);
   }
 
   function handleClickCompsRent() {
-    setCompsPins(result[8]);
+    setCompsPins(result.rent_comps);
     setShowCompsSale(false);
     setShowCompsRent(true);
     setShowCompsSTR(false);
   }
 
   function handleClickCompsSTR() {
-    setCompsPins(result[9]);
+    setCompsPins(result.st_comps);
     setShowCompsSale(false);
     setShowCompsRent(false);
     setShowCompsSTR(true);
@@ -111,11 +111,11 @@ function Property() {
 
   function handleClickSTRCount(source_ids) {
     const newIdsArray = source_ids.split(", ").map((e) => e.slice(1, -1));
-    console.log(newIdsArray);
-    const properties = result[9].filter((property) =>
+    // console.log(newIdsArray);
+    const properties = result.st_comps.filter((property) =>
     newIdsArray.includes(property.source_id)
     );
-    console.log(properties);
+    // console.log(properties);
     setViewport({ ...viewport, latitude: properties[0].latitude, longitude: properties[0].longitude });
     setCompsPins(properties);
      setShowCompsSale(false);

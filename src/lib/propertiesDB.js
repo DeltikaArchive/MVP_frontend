@@ -1,5 +1,5 @@
 import axios from "axios";
-import { URLrequests } from "../config";
+import { URLrequests, URLUsersRequests } from "../config";
 import { emptyFix, minNumFix, maxNumFix } from "./utilityFunctions";
 
 export const getAllProperties = (
@@ -34,11 +34,13 @@ export const getAllPropertiesByMLS = async (MLS) => {
   try {
     const response = await axios.get(`${URLrequests}/property/${MLS}`);
     console.log(response.data)
-    if (response.data === "Not Found") {
-      return '';
-    } else { 
+    if (
+      response.data === "Not Found in DB" ||
+      response.data === "Not valid number"
+    ) {
+      return "";
+    } else {
       return response.data;
-
     }
   } catch (error) {
     console.log(error);
@@ -48,10 +50,10 @@ export const getAllPropertiesByMLS = async (MLS) => {
 export const addRating = async (ratingObj) => {
   try {
     const response = await axios.post(
-      `${URLrequests}/rating`,
+      `${URLUsersRequests}/rating`,
       ratingObj
     );
-    console.log(response.data);
+    // console.log(response.data);
   } catch (error) {
     console.log(error);
   }
@@ -59,7 +61,7 @@ export const addRating = async (ratingObj) => {
 export const getRating = async (user_uid, property_id) => {
   try {
     const response = await axios.get(
-      `${URLrequests}/rating/${user_uid}/${property_id}`
+      `${URLUsersRequests}/rating/${user_uid}/${property_id}`
     );
     return response.data[0]
   } catch (error) {

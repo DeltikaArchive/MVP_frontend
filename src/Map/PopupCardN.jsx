@@ -22,7 +22,6 @@ import { addRating, getRating } from "../lib/propertiesDB";
 
 function PopupCardN({ pin }) {
   const { showCompsSale, showCompsRent, showCompsSTR, loggedInUser } = useContext(AppContext);
-  const { result } = useContext(AppContext);
   const [rating, setRating] = useState(0);
   const [ratingOnHover, setRatingOnHover] = useState(0);
   const [showRating, setShowRating] = useState(false);
@@ -67,8 +66,7 @@ function PopupCardN({ pin }) {
   function handleHovering(value) {
     setRatingOnHover(value);
   }
-  console.log(rating);
-  console.log(pin.source_id);
+ 
 
   useEffect(() => { 
     async function getPopupCardRating() { 
@@ -172,11 +170,11 @@ function PopupCardN({ pin }) {
             </OverlayTrigger>
           )}
 
-          {pin.similarity && (
+          {pin.normalized_similarity && (
             <span
               style={{ color: "#fe0061", fontSize: "13px", fontWeight: "600" }}
             >
-              {Math.floor(pin.normalized_distance * 10000) / 100}% similar
+              {Math.floor(pin.normalized_similarity * 10000) / 100}% similar
             </span>
           )}
         </Card.Title>

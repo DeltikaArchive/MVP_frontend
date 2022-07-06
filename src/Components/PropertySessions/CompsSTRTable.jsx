@@ -12,7 +12,7 @@ import { compose } from "@mui/system";
 function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
    const { popupId, setPopupId, viewport, setViewport, result } =
      useContext(AppContext);
-  const compsAvg = result[ 10 ][ 2 ];
+  const compsAvg = result.avgs[ 2 ];
   const [tableMarker, setTableMarker] = useState(0);
   const tableColumns = 5;
   const handleTableLeft = () => {
@@ -63,11 +63,7 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
 
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
-              return (
-                <Th key={uuidv4()}>
-                 Property {i+1}
-                </Th>
-              );
+              return <Th key={uuidv4()}>Property {i + 1}</Th>;
           })}
           <Th className="text-center purpleFont font-weight-bold">
             Comps only AVG.
@@ -82,12 +78,12 @@ function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return (
                 <Td key={uuidv4()}>
-                  {Math.floor(property.normalized_distance * 1000) / 10}%
+                  {Math.floor(property.normalized_similarity * 1000) / 10}%
                 </Td>
               );
           })}
           <Td className="similarityTableTotal">
-            {Math.floor(compsAvg.normalized_distance * 1000) / 10}%
+            {Math.floor(compsAvg.normalized_similarity * 1000) / 10}%
           </Td>
         </Tr>
         <Tr className="tableRow">

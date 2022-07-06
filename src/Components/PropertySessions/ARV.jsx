@@ -7,7 +7,7 @@ import { numberWithCommas } from "../../lib/utilityFunctions";
 
 function ARV({ onClickCompsSale }) {
   const { result } = useContext(AppContext);
-  const arv = result[6][0];
+  const arv = result.sales
   const arvTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       After repair value.
@@ -41,7 +41,7 @@ function ARV({ onClickCompsSale }) {
             ${numberWithCommas(Math.floor(arv.arv))}
           </Col>
           <Col style={{ textAlign: "right", fontSize: "15px" }}>
-            <p>{Math.floor(arv["diff_%"] * 10000) / 100}% Margin</p>
+            <p>{Math.floor(arv["diff_per"] * 10000) / 100}% Margin</p>
             <p
               style={
                 arv["diff"] >= 0
@@ -85,8 +85,11 @@ function ARV({ onClickCompsSale }) {
             <tbody>
               <tr className="tableRow">
                 <td>Price/Sqft:</td>
-                <td>${numberWithCommas(result[0].listing_price/result[0].building_size)}</td>
-                <td>${numberWithCommas(result[10][0]["price/sqft"])}</td>
+                <td>${numberWithCommas(result.info.listing_price / result.info.building_area)}</td>
+                
+
+                
+                <td>${numberWithCommas(result.avgs[0]["price/sqft"])}</td>
               </tr>
               <tr className="tableRow">
                 <td>Avg.DOM:</td>
@@ -96,7 +99,7 @@ function ARV({ onClickCompsSale }) {
               <tr className="tableRow">
                 <td>Count:</td>
                 <td></td>
-                <td>{arv["properties_count"]}</td>
+                <td>{arv.n_sales}</td>
               </tr>
             </tbody>
           </Table>

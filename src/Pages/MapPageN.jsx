@@ -148,8 +148,8 @@ export default function MapPageN() {
           {mapZoom && result && (
             <>
               <Marker
-                longitude={checkExist(result[0].longitude)}
-                latitude={checkExist(result[0].latitude)}
+                longitude={checkExist(result.info.longitude)}
+                latitude={checkExist(result.info.latitude)}
                 // clickTolerance={1}
               >
                 <RoomIcon
@@ -158,13 +158,13 @@ export default function MapPageN() {
                     color: "red",
                     cursor: "pointer",
                   }}
-                  onClick={() => handleMarkerClick(result[0].source_id)}
+                  onClick={() => handleMarkerClick(result.info.source_id)}
                 />
               </Marker>
-              {result[0].source_id === popupId && (
+              {result.info.source_id === popupId && (
                 <Popup
-                  longitude={result[0].longitude}
-                  latitude={result[0].latitude}
+                  longitude={result.info.longitude}
+                  latitude={result.info.latitude}
                   tipSize={30}
                   anchor="left"
                   closeButton={true}
@@ -175,7 +175,7 @@ export default function MapPageN() {
                   }}
                 >
                   {/* <PopupCard pin={pin} /> */}
-                  <PopupCardN pin={result[0]} />
+                  <PopupCardN pin={result.info} />
                 </Popup>
               )}
             </>

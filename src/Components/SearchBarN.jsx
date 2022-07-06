@@ -136,8 +136,8 @@ function SearchBarN() {
           const res = await getAllPropertiesByMLS(MLS);
           if (res) {
             console.log(res);
-            res[0].source_id = res[0].MLS_Number;
-            zoomToResult(res[0].latitude, res[0].longitude);
+            res.info.source_id = res.info["MLS Number"];
+            zoomToResult(res.info.latitude, res.info.longitude);
             setLoading(false);
             setResult(res);
           } else {

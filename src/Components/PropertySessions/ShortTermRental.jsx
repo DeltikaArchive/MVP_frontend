@@ -7,7 +7,7 @@ import { numberWithCommas } from '../../lib/utilityFunctions';
 import TrendChart from './TrendChart';
 function ShortTermRental({ onClickCompsSTR, onClickSTRCount}) {
   const { result } = useContext(AppContext)
-  const str = result[ 2 ]
+  const str = result.st
    const adrTooltip = (props) => (
      <Tooltip id="button-tooltip" {...props}>
        Average Daily Rate: Average booked nightly rate + cleaning fees for all
@@ -59,7 +59,7 @@ function ShortTermRental({ onClickCompsSTR, onClickSTRCount}) {
             <Col
               style={{ fontWeight: "600", fontSize: "15px", color: "#6b46c1" }}
             >
-              Max arbitrage: {Math.floor(str[3].arbitrage * 100) / 100}
+              Max arbitrage: {Math.floor(str[3].arbitrages * 100) / 100}
             </Col>
           </Row>
           <div>
@@ -134,16 +134,16 @@ function ShortTermRental({ onClickCompsSTR, onClickSTRCount}) {
                   <td>
                     <strong>Top 10th</strong>⭐⭐⭐
                   </td>
-                  <td>${Math.floor(str[3].ADR_2021)}</td>
-                  <td>{Math.floor(str[3].occ * 100)}%</td>
-                  <td>${numberWithCommas(str[3].REV_2021)}</td>
+                  <td>${Math.floor(str[3].ADR_2021s)}</td>
+                  <td>{Math.floor(str[3].occs * 100)}%</td>
+                  <td>${numberWithCommas(str[3].REV_2021s)}</td>
                   <td>
-                    ${numberWithCommas(str[3].expected_st_monthly_income)}
+                    ${numberWithCommas(str[3].expected_incomes)}
                   </td>
-                  <td>{Math.floor(str[3].arbitrage * 100) / 100}</td>
+                  <td>{Math.floor(str[3].arbitrages * 100) / 100}</td>
                   <td
                     id="STRCountCell"
-                    onClick={() => onClickSTRCount(str[3].source_ids)}
+                    onClick={() => onClickSTRCount(str[3].sources_ids)}
                   >
                     {str[3].count}
                   </td>
@@ -152,16 +152,16 @@ function ShortTermRental({ onClickCompsSTR, onClickSTRCount}) {
                   <td>
                     <strong>10th-25th</strong>⭐⭐
                   </td>
-                  <td>${Math.floor(str[2].ADR_2021)}</td>
-                  <td>{Math.floor(str[2].occ * 100)}%</td>
-                  <td>${numberWithCommas(str[2].REV_2021)}</td>
+                  <td>${Math.floor(str[2].ADR_2021s)}</td>
+                  <td>{Math.floor(str[2].occs * 100)}%</td>
+                  <td>${numberWithCommas(str[2].REV_2021s)}</td>
                   <td>
-                    ${numberWithCommas(str[2].expected_st_monthly_income)}
+                    ${numberWithCommas(str[2].expected_incomes)}
                   </td>
-                  <td>{Math.floor(str[2].arbitrage * 100) / 100}</td>
+                  <td>{Math.floor(str[2].arbitrages * 100) / 100}</td>
                   <td
                     id="STRCountCell"
-                    onClick={() => onClickSTRCount(str[2].source_ids)}
+                    onClick={() => onClickSTRCount(str[2].sources_ids)}
                   >
                     {str[2].count}
                   </td>
@@ -170,16 +170,16 @@ function ShortTermRental({ onClickCompsSTR, onClickSTRCount}) {
                   <td>
                     <strong>25th-50th</strong>⭐
                   </td>
-                  <td>${Math.floor(str[1].ADR_2021)}</td>
-                  <td>{Math.floor(str[1].occ * 100)}%</td>
-                  <td>${numberWithCommas(str[1].REV_2021)}</td>
+                  <td>${Math.floor(str[1].ADR_2021s)}</td>
+                  <td>{Math.floor(str[1].occs * 100)}%</td>
+                  <td>${numberWithCommas(str[1].REV_2021s)}</td>
                   <td>
-                    ${numberWithCommas(str[1].expected_st_monthly_income)}
+                    ${numberWithCommas(str[1].expected_incomes)}
                   </td>
-                  <td>{Math.floor(str[1].arbitrage * 100) / 100}</td>
+                  <td>{Math.floor(str[1].arbitrages * 100) / 100}</td>
                   <td
                     id="STRCountCell"
-                    onClick={() => onClickSTRCount(str[1].source_ids)}
+                    onClick={() => onClickSTRCount(str[1].sources_ids)}
                   >
                     {str[1].count}
                   </td>
@@ -188,16 +188,16 @@ function ShortTermRental({ onClickCompsSTR, onClickSTRCount}) {
                   <td>
                     <strong>50th-100th</strong>
                   </td>
-                  <td>${Math.floor(str[0].ADR_2021)}</td>
-                  <td>{Math.floor(str[0].occ * 100)}%</td>
-                  <td>${numberWithCommas(str[0].REV_2021)}</td>
+                  <td>${Math.floor(str[0].ADR_2021s)}</td>
+                  <td>{Math.floor(str[0].occs * 100)}%</td>
+                  <td>${numberWithCommas(str[0].REV_2021s)}</td>
                   <td>
-                    ${numberWithCommas(str[0].expected_st_monthly_income)}
+                    ${numberWithCommas(str[0].expected_incomes)}
                   </td>
-                  <td>{Math.floor(str[0].arbitrage * 100) / 100}</td>
+                  <td>{Math.floor(str[0].arbitrages * 100) / 100}</td>
                   <td
                     id="STRCountCell"
-                    onClick={() => onClickSTRCount(str[0].source_ids)}
+                    onClick={() => onClickSTRCount(str[0].sources_ids)}
                   >
                     {str[0].count}
                   </td>

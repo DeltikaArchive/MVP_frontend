@@ -6,6 +6,7 @@ import { AppContext } from "../../Context/AppContext";
 
 function Amenities() {
   const { result } = useContext(AppContext);
+  const amenities = result.amenities;
   const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       List of amenities included in the property.
@@ -39,43 +40,43 @@ function Amenities() {
           </Row> */}
 
         <Row>
-          {result[1].private_pool > 0 && (
+          {amenities.private_pool > 0 && (
             <Col md={6}>
               <CheckIcon fontSize="small" />
-              &nbsp;{result[1].private_pool} Private Pool
+              &nbsp;{amenities.private_pool} Private Pool
             </Col>
           )}
-          {result[1]["garages"] > 0 && (
+          {amenities["garages"] > 0 && (
             <Col md={6}>
               <CheckIcon fontSize="small" />
-              &nbsp;{result[1]["garages"]} Garages
-            </Col>
-          )}
-
-          {result[1]["fire place"] > 0 && (
-            <Col md={6}>
-              <CheckIcon fontSize="small" />
-              &nbsp;{result[1]["fire place"]} Fire Place
-            </Col>
-          )}
-          {result[1].parking > 0 && (
-            <Col md={6}>
-              <CheckIcon fontSize="small" />
-              &nbsp;{result[1].parking} Parking
+              &nbsp;{amenities["garages"]} Garages
             </Col>
           )}
 
-          {result[1]["construction"] && (
+          {amenities["fire place"] > 0 && (
             <Col md={6}>
               <CheckIcon fontSize="small" />
-              &nbsp;{result[1]["construction"]}
+              &nbsp;{amenities["fire place"]} Fire Place
+            </Col>
+          )}
+          {amenities.total_parking !== "N/A" && (
+            <Col md={6}>
+              <CheckIcon fontSize="small" />
+              &nbsp;{amenities.total_parking} Parking
             </Col>
           )}
 
-          {result[1].style && (
+          {amenities["construction"] && (
             <Col md={6}>
               <CheckIcon fontSize="small" />
-              &nbsp;Style: {result[1].style}
+              &nbsp;{amenities["construction"]}
+            </Col>
+          )}
+
+          {result.info.style && (
+            <Col md={6}>
+              <CheckIcon fontSize="small" />
+              &nbsp;Style: {result.info.style}
             </Col>
           )}
         </Row>

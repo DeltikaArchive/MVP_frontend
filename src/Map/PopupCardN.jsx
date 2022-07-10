@@ -21,7 +21,8 @@ import { addRating, getRating } from "../lib/propertiesDB";
 
 
 function PopupCardN({ pin }) {
-  const { showCompsSale, showCompsRent, showCompsSTR, loggedInUser } = useContext(AppContext);
+  const { showCompsSale, showCompsRent, showCompsSTR, loggedInUser, result } = useContext(AppContext);
+  const original_property_id = result.info['MLS Number'];
   const [rating, setRating] = useState(0);
   const [ratingOnHover, setRatingOnHover] = useState(0);
   const [showRating, setShowRating] = useState(false);
@@ -49,7 +50,8 @@ function PopupCardN({ pin }) {
     setShowAlert(true);
     const ratingObj = {
       user_uid: loggedInUser.uid,
-      property_source_id: pin.source_id,
+      original_source_id:original_property_id,
+      similar_source_id: pin.source_id,
       rating_score: value,
     };
     await addRating(ratingObj);
@@ -71,7 +73,11 @@ function PopupCardN({ pin }) {
   useEffect(() => { 
     async function getPopupCardRating() { 
       try {
-        const res = await getRating(loggedInUser.uid, pin.source_id); 
+        const res = await getRating(
+          loggedInUser.uid,
+          original_property_id,
+          pin.source_id
+        ); 
         if (res) { 
           setRating(res.rating_score)
         }
@@ -80,7 +86,7 @@ function PopupCardN({ pin }) {
       }
     }
     getPopupCardRating();
-  }, [ loggedInUser, pin ])
+  }, [loggedInUser, original_property_id, pin])
   
   return (
     <Card style={{ width: "20rem" }}>

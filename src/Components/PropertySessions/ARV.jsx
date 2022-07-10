@@ -86,9 +86,6 @@ function ARV({ onClickCompsSale }) {
               <tr className="tableRow">
                 <td>Price/Sqft:</td>
                 <td>${numberWithCommas(result.info.listing_price / result.info.building_area)}</td>
-                
-
-                
                 <td>${numberWithCommas(result.avgs[0]["price/sqft"])}</td>
               </tr>
               <tr className="tableRow">

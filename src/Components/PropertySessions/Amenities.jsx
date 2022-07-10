@@ -40,10 +40,10 @@ function Amenities() {
           </Row> */}
 
         <Row>
-          {amenities.private_pool > 0 && (
+          {amenities.pool > 0 && (
             <Col md={6}>
               <CheckIcon fontSize="small" />
-              &nbsp;{amenities.private_pool} Private Pool
+              &nbsp;{amenities.pool} Private Pool
             </Col>
           )}
           {amenities["garages"] > 0 && (

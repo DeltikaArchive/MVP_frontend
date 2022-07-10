@@ -58,12 +58,12 @@ export const addRating = async (ratingObj) => {
     console.log(error);
   }
 };
-export const getRating = async (user_uid, property_id) => {
+export const getRating = async (user_uid, original_source_id, similar_source_id) => {
   try {
     const response = await axios.get(
-      `${URLUsersRequests}/rating/${user_uid}/${property_id}`
+      `${URLUsersRequests}/rating/${user_uid}/${original_source_id}/${similar_source_id}`
     );
-    return response.data[0]
+    return response.data[0];
   } catch (error) {
     console.log(error);
   }

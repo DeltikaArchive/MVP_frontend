@@ -39,7 +39,7 @@ function ARVTable({ onClickCompsSale }) {
           </tr>
         </tbody>
       </Table>
-      <Row className="justify-content-center">
+      <Row className="justify-content-center mb-3">
         <Button size="sm" onClick={onClickCompsSale} style={{ width: "120px" }}>
           Comps Sale
         </Button>

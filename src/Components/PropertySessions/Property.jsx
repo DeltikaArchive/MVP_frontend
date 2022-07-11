@@ -2,16 +2,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import React, { useContext, useEffect, useState } from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import MainNavbar from "../MainNavbar";
-import AddressInfo from "./Overview/AddressInfo";
 import ARV from "./ARV/ARV";
-import HomeFacts from "./Overview/HomeFacts";
-import OwnershipInfo from "./OwnershipInfo";
-import RentalEstimate from "./RentalEstimate";
-import Risks from "./Environment/Risks";
-import ShortTermRental from "./ShortTermRental";
 import Similarity from "./Similarity";
-import SearchBarN from "../SearchBarN";
 import { AppContext } from "../../Context/AppContext";
 import { auth } from "../../firebase-config";
 import { getPropertyById, getPropertyByOwner } from "../../lib/propertiesDB";
@@ -20,6 +12,8 @@ import "./Property.css";
 import Overview from "./Overview/Overview";
 import Amenity from "./Amenity/Amenity";
 import Environment from "./Environment/Environment";
+import LongTermRental from "./LongTermRental/LongTermRental";
+import ShortTermRental from "./ShortTermRental/ShortTermRental";
 
 function Property() {
   const {
@@ -227,56 +221,18 @@ function Property() {
             <Environment />
           </section>
           <section id="arv">
-            <ARV />
+            <ARV onClickCompsSale={handleClickCompsSale} />
           </section>
-          <section id="long-term-rental">long-term-rental</section>
-          <section id="short-term-rental">short-term-rental</section>
-          <Row className="propertySession-1 ">
-            <Col>
-              <AddressInfo />
-            </Col>
-            {/* <Col className="propertySession-1 ">
-              <OwnershipInfo />
-            </Col> */}
-          </Row>
-          <Row>
-            <Col className="propertySession-1 ">
-              <HomeFacts />
-            </Col>
-            <Col className="propertySession-1-2">
-              {/* <Row className="propertySession-2">
-                <Amenities />
-              </Row> */}
-              <Row className="propertySession-2-2">
-                <Risks />
-              </Row>
-            </Col>
-          </Row>
-          <Row>
-            <Col
-              className="propertySession-1"
-              style={{ backgroundColor: "#df6fbe15" }}
-            >
-              <ARV onClickCompsSale={handleClickCompsSale} />
-            </Col>
-            <Col
-              className="propertySession-1"
-              style={{ backgroundColor: "#f1fe0015" }}
-            >
-              <RentalEstimate onClickCompsRent={handleClickCompsRent} />
-            </Col>
-          </Row>
-          <Row>
-            <Col
-              className="propertySession-1"
-              style={{ backgroundColor: "#00fedc19" }}
-            >
-              <ShortTermRental
-                onClickCompsSTR={handleClickCompsSTR}
-                onClickSTRCount={handleClickSTRCount}
-              />
-            </Col>
-          </Row>
+          <section id="long-term-rental">
+            <LongTermRental onClickCompsRent={handleClickCompsRent} />
+          </section>
+          <section id="short-term-rental">
+            <ShortTermRental
+              onClickCompsSTR={handleClickCompsSTR}
+              onClickSTRCount={handleClickSTRCount}
+            />
+          </section>
+
           {(showCompsSale || showCompsRent || showCompsSTR) && (
             <Row>
               <Similarity

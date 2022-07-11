@@ -4,7 +4,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import { AppContext } from "../../../Context/AppContext";
 
 
-function Amenities() {
+function AmenitiesDetails() {
   const { result } = useContext(AppContext);
   const amenities = result.amenities;
   
@@ -62,4 +62,4 @@ function Amenities() {
   );
 }
 
-export default Amenities;
+export default AmenitiesDetails;

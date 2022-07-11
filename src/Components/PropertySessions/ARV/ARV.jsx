@@ -5,6 +5,7 @@ import Table from "react-bootstrap/Table";
 import { AppContext } from "../../../Context/AppContext";
 import { numberWithCommas } from "../../../lib/utilityFunctions";
 import ARVTable from "./ARVTable";
+import AmenityAffectChart from "./AmenityAffectChart";
 
 function ARV({ onClickCompsSale }) {
   const { result } = useContext(AppContext);
@@ -42,7 +43,7 @@ function ARV({ onClickCompsSale }) {
               </Col>
             </Row>
             <Row>
-              <ARVTable />
+              <ARVTable onClickCompsSale={onClickCompsSale} />
             </Row>
             <Row className="arv-table-header">
               <Col>Expenses</Col>
@@ -68,7 +69,11 @@ function ARV({ onClickCompsSale }) {
               </Col>
             </Row>
           </Col>
-          <Col>charts</Col>
+          <Col>
+            <Row>
+              <AmenityAffectChart />
+            </Row>
+          </Col>
         </Row>
 
         {/* <div style={{ fontSize: "12px", textAlign: "left" }}>

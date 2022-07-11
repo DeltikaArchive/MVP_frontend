@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tooltip, OverlayTrigger } from "react-bootstrap";
 import InfoIcon from "@mui/icons-material/Info";
-import Amenities from './Amenities';
+import AmenitiesDetails from './AmenitiesDetails';
 
 function Amenity() {
   const amenityTooltip = (props) => (
@@ -22,7 +22,7 @@ function Amenity() {
           </OverlayTrigger>
         </div>
         <div className="m-3">
-          <Amenities />
+          <AmenitiesDetails/>
         </div>
       </div>
     );

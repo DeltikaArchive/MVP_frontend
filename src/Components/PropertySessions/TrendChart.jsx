@@ -53,6 +53,7 @@ const data = {
     },
   ],
 };
+console.log(data.datasets[0].data)
 
 function TrendChart() {
     return (

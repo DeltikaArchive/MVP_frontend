@@ -2,19 +2,24 @@ import { onAuthStateChanged } from "firebase/auth";
 import React, { useContext, useEffect, useState } from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import AddressInfo from "../Components/PropertySessions/AddressInfo";
-import Amenities from "../Components/PropertySessions/Amenities";
-import ARV from "../Components/PropertySessions/ARV";
-import HomeFacts from "../Components/PropertySessions/HomeFacts";
-import OwnershipInfo from "../Components/PropertySessions/OwnershipInfo";
-import RentalEstimate from "../Components/PropertySessions/RentalEstimate";
-import Risks from "../Components/PropertySessions/Risks";
-import ShortTermRental from "../Components/PropertySessions/ShortTermRental";
-import Similarity from "../Components/PropertySessions/Similarity";
-import { AppContext } from "../Context/AppContext";
-import { auth } from "../firebase-config";
-import { getPropertyById, getPropertyByOwner } from "../lib/propertiesDB";
+import MainNavbar from "../MainNavbar";
+import AddressInfo from "../PropertySessions/AddressInfo";
+import Amenities from "../PropertySessions/Amenities";
+import ARV from "../PropertySessions/ARV";
+import HomeFacts from "../PropertySessions/HomeFacts";
+import OwnershipInfo from "../PropertySessions/OwnershipInfo";
+import RentalEstimate from "../PropertySessions/RentalEstimate";
+import Risks from "../PropertySessions/Risks";
+import ShortTermRental from "../PropertySessions/ShortTermRental";
+import Similarity from "../PropertySessions/Similarity";
+import SearchBarN from "../SearchBarN";
+import { AppContext } from "../../Context/AppContext";
+import { auth } from "../../firebase-config";
+import { getPropertyById, getPropertyByOwner } from "../../lib/propertiesDB";
+import { Link } from "react-scroll";
 import "./Property.css";
+import Overview from "./Overview";
+import Amenity from "./Amenity";
 
 function Property() {
   const {
@@ -128,22 +133,97 @@ function Property() {
       {loading && <Spinner animation="border" />}
       {!loading && result && (
         <div className="propertyPage">
-          {/* {propertyLoader && (
-          <Spinner
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="gray.200"
-            color="blue.500"
-            className="loading pageLoader"
-          />
-            )} */}
-          <Row>
-            <Col className="propertySession-1 ">
+          <header className="nav">
+            <nav className="nav__container__actions">
+              <ul>
+                <li>
+                  <Link
+                    activeClass="active"
+                    smooth
+                    spy
+                    offset={-70}
+                    duration={150}
+                    to="overview"
+                  >
+                    Overview
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    activeClass="active"
+                    smooth
+                    spy
+                    duration={150}
+                    offset={-70}
+                    to="amenities"
+                  >
+                    Amenities
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    activeClass="active"
+                    smooth
+                    spy
+                    duration={150}
+                    offset={-70}
+                    to="environment"
+                  >
+                    Environment
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    activeClass="active"
+                    smooth
+                    spy
+                    offset={-70}
+                    duration={150}
+                    to="arv"
+                  >
+                    ARV
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    activeClass="active"
+                    smooth
+                    spy
+                    offset={-70}
+                    duration={150}
+                    to="long-term-rental"
+                  >
+                    Long term rental
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    activeClass="active"
+                    smooth
+                    spy
+                    duration={150}
+                    offset={-70}
+                    to="short-term-rental"
+                  >
+                    Short term rental
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </header>
+          <section id="overview"><Overview/></section>
+          <section id="amenities"><Amenity/></section>
+          <section id="environment">environment</section>
+          <section id="arv">arv </section>
+          <section id="long-term-rental">long-term-rental</section>
+          <section id="short-term-rental">short-term-rental</section>
+          <Row className="propertySession-1 ">
+            <Col>
               <AddressInfo />
             </Col>
-            <Col className="propertySession-1 ">
+            {/* <Col className="propertySession-1 ">
               <OwnershipInfo />
-            </Col>
+            </Col> */}
           </Row>
           <Row>
             <Col className="propertySession-1 ">
@@ -177,7 +257,10 @@ function Property() {
               className="propertySession-1"
               style={{ backgroundColor: "#00fedc19" }}
             >
-              <ShortTermRental onClickCompsSTR={handleClickCompsSTR} onClickSTRCount={handleClickSTRCount} />
+              <ShortTermRental
+                onClickCompsSTR={handleClickCompsSTR}
+                onClickSTRCount={handleClickSTRCount}
+              />
             </Col>
           </Row>
           {(showCompsSale || showCompsRent || showCompsSTR) && (

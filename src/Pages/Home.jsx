@@ -7,6 +7,7 @@ import { Col, Row } from "react-bootstrap";
 import SearchBarN from "../Components/SearchBarN";
 import MainNavbar from "../Components/MainNavbar"
 import MapPageN from "./MapPageN";
+import SavedFiltersList from "../Components/SavedFiltersList";
 
 export default function Home() {
   return (
@@ -21,12 +22,10 @@ export default function Home() {
           <SearchBarN />
           <Row className="mx-3 mt-3">
             <Col lg={7}>
-              <Outlet />
+              <SavedFiltersList />
             </Col>
             <Col lg={5} className="pe-0">
-            {/* <MapPage /> */}
             <MapPageN />
-           
             </Col>
           </Row>
         </div>

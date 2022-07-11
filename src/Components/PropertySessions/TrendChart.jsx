@@ -29,7 +29,7 @@ const options = {
     },
     title: {
       display: true,
-      text: 'Chart.js Line Chart',
+      text: 'Line Chart',
     },
   },
 };
@@ -57,7 +57,7 @@ const data = {
 function TrendChart() {
     return (
       <div>
-      <Line options={options} data={data} />;
+      <Line options={options} data={data} />
       </div>
     );
 }

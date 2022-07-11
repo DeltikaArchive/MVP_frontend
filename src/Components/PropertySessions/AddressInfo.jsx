@@ -2,35 +2,44 @@ import React, { useContext } from "react";
 import { Col, Row } from "react-bootstrap";
 import { AppContext } from "../../Context/AppContext";
 import PropertyImgNotAvailable from "../../Images/PropertyImgNotAvailable.png";
+import { numberWithCommas } from "../../lib/utilityFunctions";
 
 function AddressInfo() {
   const { result } = useContext(AppContext);
   return (
-    <div className="text-center">
+    <div>
       <Row>
-        <Col md={4} style={{ alignSelf: "center" }} className="pe-0">
+        <Col md={5} className="pe-0">
           <img src={PropertyImgNotAvailable} alt={"property"} height="140" />
         </Col>
-        <Col md={8} style={{ alignSelf: "center" }} className="ps-0">
+        <Col md={7} className="">
           <Row>
-            <h5
+            <span
               className="mb-2"
-              style={{ fontWeight: "600", textAlign: "center" }}
+              style={{ fontWeight: "600", color: "#6b46c1" }}
             >
-              <i>
-                {result.info.address}
-              </i>
-            </h5>
+              Listing Price:{"  "}
+              <span
+                style={{
+                  fontWeight: "600",
+                  color: "#6b46c1",
+                  fontSize: "20px",
+                }}
+              >
+                ${numberWithCommas(result.info.listing_price)}
+              </span>
+            </span>
           </Row>
           <Row style={{ fontSize: "12px" }}>
-            <Col>N/A</Col>
-            <Col>N/A</Col>
-            <Col style={{ color: "#00b297e6", fontWeight: "600" }}>Active</Col>
+            <span style={{ fontSize: "12px", color: "gray" }}>
+              Listing Status:{" "}
+              <span style={{ color: "#00b297e6", fontWeight: "600" }}>
+                Active
+              </span>
+            </span>
           </Row>
-          <Row style={{ fontSize: "12px", color: "gray" }}>
-            <Col>Zoning</Col>
-            <Col>APN</Col>
-            <Col>Listing Status</Col>
+          <Row style={{ fontSize: "12px" }}>
+            <i>{result.info.address}</i>
           </Row>
         </Col>
       </Row>

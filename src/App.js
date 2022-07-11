@@ -21,9 +21,8 @@ import { MAP_VIEWPORT, STARTING_MAP_ZOOM } from "./Map/MapUtils";
 import Macro from "./Pages/Macro";
 import axios from "axios";
 import { URLrequests } from "./config";
-import Property from "./Pages/Property";
-import MainNavbar from "./Components/MainNavbar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Search from "./Pages/Search";
 
 
 const muiTheme = createTheme();
@@ -216,13 +215,14 @@ const [popupId, setPopupId] = useState(null);
                 <Route path="/login-signup" element={<Welcome />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/map" element={<MapPage />} />
-                <Route path="/" element={<Home />}>
-                  <Route
+                <Route path="/" element={<Home />}/>
+                  {/* <Route path="/" element={<SavedFiltersList />} /> */}
+                  {/* <Route
                     key={uuidv4()}
                     path={`/filters/0`}
                     element={<Filters filters={arrayOfFilters[0]} />}
-                  />
-                  {arrayOfFilters.map((element) => {
+                  /> */}
+                  {/* {arrayOfFilters.map((element) => {
                     return (
                       <Route
                         key={uuidv4()}
@@ -230,12 +230,11 @@ const [popupId, setPopupId] = useState(null);
                         element={<Filters filters={element} />}
                       />
                     );
-                  })}
-                  <Route path="/" element={<SavedFiltersList />} />
-                  <Route path="/search" element={<Property />} />
+                  })} */}
+                  <Route path="/search" element={<Search />} />
                   {/* <Route path="/property" element={<PropertyRes />} /> */}
-                  {/* <Route path="/property" element={<Property />} /> */}
-                </Route>
+                  {/* <Route path="/search" element={<Search />} /> */}
+                
                 <Route path="/macro" element={<Macro />} />
               </Routes>
             </div>

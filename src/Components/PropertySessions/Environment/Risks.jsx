@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AppContext } from '../../Context/AppContext';
+import { AppContext } from '../../../Context/AppContext';
 import Risk from './Risk';
 
 

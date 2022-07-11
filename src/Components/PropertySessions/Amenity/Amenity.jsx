@@ -1,5 +1,5 @@
 import React from 'react';
-import Amenities from '../PropertySessions/Amenities';
+import Amenities from './Amenities';
 
 function Amenity() {
     return (

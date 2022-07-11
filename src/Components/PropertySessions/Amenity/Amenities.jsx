@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { Col, Row, Button, Tooltip, OverlayTrigger } from "react-bootstrap";
 import InfoIcon from "@mui/icons-material/Info";
 import CheckIcon from "@mui/icons-material/Check";
-import { AppContext } from "../../Context/AppContext";
+import { AppContext } from "../../../Context/AppContext";
+
 
 function Amenities() {
   const { result } = useContext(AppContext);

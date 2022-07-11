@@ -1,10 +1,8 @@
 import "./search.css";
-import { Link } from "react-scroll";
-import HomeFacts from '../Components/PropertySessions/HomeFacts'
 import MainNavbar from "../Components/MainNavbar";
 import { Col, Row } from "react-bootstrap";
 import SearchBarN from "../Components/SearchBarN";
-import Property from "../Components/Search/Property";
+import Property from "../Components/PropertySessions/Property";
 import MapPageN from "./MapPageN";
 export default function Search() {
   return (

@@ -3,23 +3,23 @@ import React, { useContext, useEffect, useState } from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import MainNavbar from "../MainNavbar";
-import AddressInfo from "../PropertySessions/AddressInfo";
-import Amenities from "../PropertySessions/Amenities";
-import ARV from "../PropertySessions/ARV";
-import HomeFacts from "../PropertySessions/HomeFacts";
-import OwnershipInfo from "../PropertySessions/OwnershipInfo";
-import RentalEstimate from "../PropertySessions/RentalEstimate";
-import Risks from "../PropertySessions/Risks";
-import ShortTermRental from "../PropertySessions/ShortTermRental";
-import Similarity from "../PropertySessions/Similarity";
+import AddressInfo from "./Overview/AddressInfo";
+import ARV from "./ARV";
+import HomeFacts from "./Overview/HomeFacts";
+import OwnershipInfo from "./OwnershipInfo";
+import RentalEstimate from "./RentalEstimate";
+import Risks from "./Environment/Risks";
+import ShortTermRental from "./ShortTermRental";
+import Similarity from "./Similarity";
 import SearchBarN from "../SearchBarN";
 import { AppContext } from "../../Context/AppContext";
 import { auth } from "../../firebase-config";
 import { getPropertyById, getPropertyByOwner } from "../../lib/propertiesDB";
 import { Link } from "react-scroll";
 import "./Property.css";
-import Overview from "./Overview";
-import Amenity from "./Amenity";
+import Overview from "./Overview/Overview";
+import Amenity from "./Amenity/Amenity";
+import Environment from "./Environment/Environment";
 
 function Property() {
   const {
@@ -213,7 +213,7 @@ function Property() {
           </header>
           <section id="overview"><Overview/></section>
           <section id="amenities"><Amenity/></section>
-          <section id="environment">environment</section>
+          <section id="environment"><Environment/></section>
           <section id="arv">arv </section>
           <section id="long-term-rental">long-term-rental</section>
           <section id="short-term-rental">short-term-rental</section>
@@ -230,9 +230,9 @@ function Property() {
               <HomeFacts />
             </Col>
             <Col className="propertySession-1-2">
-              <Row className="propertySession-2">
+              {/* <Row className="propertySession-2">
                 <Amenities />
-              </Row>
+              </Row> */}
               <Row className="propertySession-2-2">
                 <Risks />
               </Row>

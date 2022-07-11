@@ -1,20 +1,14 @@
 import React from "react";
-import SearchBar from "../Components/SearchBar";
-import Sidebar from "../Components/Sidebar";
-import { Outlet } from "react-router-dom";
-import MapPage from "./MapPage";
 import { Col, Row } from "react-bootstrap";
 import SearchBarN from "../Components/SearchBarN";
 import MainNavbar from "../Components/MainNavbar"
 import MapPageN from "./MapPageN";
-import SavedFiltersList from "../Components/SavedFiltersList";
+import SavedFiltersList from "../Components/Home/SavedFiltersList";
 
 export default function Home() {
   return (
     <>
       <MainNavbar />
-      {/* <div className="d-flex"> */}
-        {/* <Sidebar /> */}
         <div
           className="flex-grow-1"
           // style={{ left: "10vw", position: "absolute", width: "90vw" }}
@@ -29,7 +23,6 @@ export default function Home() {
             </Col>
           </Row>
         </div>
-      {/* </div> */}
     </>
   );
 }

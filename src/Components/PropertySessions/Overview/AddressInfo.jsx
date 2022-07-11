@@ -23,7 +23,7 @@ function AddressInfo() {
                   fontSize: "20px",
                 }}
               >
-                ${numberWithCommas(result.info.listing_price)}
+                {"  "} ${numberWithCommas(result.info.listing_price)}
               </span>
             </span>
           </Row>
@@ -62,7 +62,9 @@ function AddressInfo() {
               HIGH
             </p>
             <p style={{ color: "#6b46c1", fontWeight: "600" }}>2.5 Arbitrage</p>
-            <p style={{ color: "#6b46c1", fontWeight: "600" }}>20% YoY growth</p>
+            <p style={{ color: "#6b46c1", fontWeight: "600" }}>
+              20% YoY growth
+            </p>
           </div>
         </Col>
       </Row>

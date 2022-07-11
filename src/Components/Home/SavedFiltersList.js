@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
-import { AppContext } from "../Context/AppContext";
-import "../App.css";
+import { AppContext } from "../../Context/AppContext";
+import "../../App.css";
 import { FaPlus } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import Filters from "./Filters";
 import { v4 as uuidv4 } from "uuid";
 import { BsTrash } from "react-icons/bs";
 

@@ -4,7 +4,7 @@ import { Col, Row, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import MainNavbar from "../MainNavbar";
 import AddressInfo from "./Overview/AddressInfo";
-import ARV from "./ARV";
+import ARV from "./ARV/ARV";
 import HomeFacts from "./Overview/HomeFacts";
 import OwnershipInfo from "./OwnershipInfo";
 import RentalEstimate from "./RentalEstimate";
@@ -130,7 +130,13 @@ function Property() {
 
   return (
     <div>
-      {loading && <Spinner animation="border" />}
+      {loading && (
+        <Spinner
+          animation="border"
+          style={{ position: "relative", right: "-50%" }}
+        />
+      )}
+
       {!loading && result && (
         <div className="propertyPage">
           <header className="nav">
@@ -211,10 +217,18 @@ function Property() {
               </ul>
             </nav>
           </header>
-          <section id="overview"><Overview/></section>
-          <section id="amenities"><Amenity/></section>
-          <section id="environment"><Environment/></section>
-          <section id="arv">arv </section>
+          <section id="overview">
+            <Overview />
+          </section>
+          <section id="amenities">
+            <Amenity />
+          </section>
+          <section id="environment">
+            <Environment />
+          </section>
+          <section id="arv">
+            <ARV />
+          </section>
           <section id="long-term-rental">long-term-rental</section>
           <section id="short-term-rental">short-term-rental</section>
           <Row className="propertySession-1 ">

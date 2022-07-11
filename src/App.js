@@ -12,7 +12,6 @@ import MapPage from "./Pages/MapPage";
 import Welcome from "./Components/LoginAndSignup/Welcome";
 import ForgotPassword from "./Components/LoginAndSignup/ForgotPassword";
 import Filters from "./Components/Filters";
-import SavedFiltersList from "./Components/SavedFiltersList";
 import { getAllProperties } from "./lib/propertiesDB";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase-config";

@@ -67,3 +67,16 @@
 .btn-more:hover {
   color: #404bb2;
 }
+
+.note-trigger{
+  vertical-align: text-top;
+  color: #6b46c18c
+}
+
+.arv-table-header{
+  padding: 6px ;
+  background-color: #f1eef9;
+  font-size: 16px;
+  font-weight: 600;
+  /* color:#f23f05; */
+}

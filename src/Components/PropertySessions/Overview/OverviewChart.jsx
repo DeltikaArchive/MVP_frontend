@@ -55,7 +55,7 @@ const data = {
 };
 console.log(data.datasets[0].data)
 
-function TrendChart() {
+function OverviewChart() {
     return (
       <div>
       <Line options={options} data={data} />
@@ -63,4 +63,4 @@ function TrendChart() {
     );
 }
 
-export default TrendChart;
+export default OverviewChart;

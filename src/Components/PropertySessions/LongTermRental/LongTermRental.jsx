@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
 import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
-import { AppContext } from '../../../Context/AppContext';
-import { numberWithCommas } from '../../../lib/utilityFunctions';
 import AmenityAffectChart from '../ARV/AmenityAffectChart';
-import ARVTable from '../ARV/ARVTable';
 import RentalEstimateTable from './RentalEstimateTable';
 import InfoIcon from "@mui/icons-material/Info";
+import CompsRentTable from './CompsRentTable';
+import { AppContext } from '../../../Context/AppContext';
+import { numberWithCommas } from '../../../lib/utilityFunctions';
 
-function LongTermRental({ onClickCompsRent }) {
+
+function LongTermRental({ onClickCompsRent, showCompsRent }) {
   const { result } = useContext(AppContext);
     const rent = result.rent;
     
@@ -47,6 +48,11 @@ function LongTermRental({ onClickCompsRent }) {
             </Row>
           </Col>
         </Row>
+        {showCompsRent && (
+          <Row>
+            <CompsRentTable SIMILARITY_TABLE_DATA={result.rent_comps} />
+          </Row>
+        )}
       </div>
     </div>
   );

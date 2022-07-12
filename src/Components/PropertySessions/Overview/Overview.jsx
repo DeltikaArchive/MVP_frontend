@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import AddressInfo from './AddressInfo';
 import HomeFacts from './HomeFacts';
-import TrendChart from '../TrendChart';
+import OverviewChart from './OverviewChart';
 
 function Overview() {
     return (
@@ -14,7 +14,7 @@ function Overview() {
           <AddressInfo />
             </Col>
             <Col md={5}>
-              <TrendChart/>
+              <OverviewChart/>
             </Col>
           </Row>
           <Row>

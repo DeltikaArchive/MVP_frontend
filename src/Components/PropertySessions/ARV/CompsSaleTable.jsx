@@ -5,19 +5,19 @@ import {
   Tbody,
   Tr,
   Th,
-  Td
+  Td,
+  NumberInputStepper
 } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
-import PropertyImgNotAvailable from "../../Images/PropertyImgNotAvailable.png";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { numberWithCommas } from "../../lib/utilityFunctions";
-import { AppContext } from "../../Context/AppContext";
+import { numberWithCommas } from "../../../lib/utilityFunctions";
+import { AppContext } from "../../../Context/AppContext";
 
-function CompsRentTable({ SIMILARITY_TABLE_DATA }) {
-    const { popupId, setPopupId, viewport, setViewport, result } =
-      useContext(AppContext);
-  const compsAvg = result.avgs[ 1 ];
+
+function CompsSaleTable({ SIMILARITY_TABLE_DATA }) {
+  const { popupId, setPopupId, viewport, setViewport, result } = useContext(AppContext);
+  const compsAvg = result.avgs[0]
   const [tableMarker, setTableMarker] = useState(0);
   const tableColumns = 5;
   const handleTableLeft = () => {
@@ -32,6 +32,8 @@ function CompsRentTable({ SIMILARITY_TABLE_DATA }) {
     setPopupId(id);
     setViewport({ ...viewport, latitude: lat, longitude: long });
   }
+
+
   return (
     <Table variant="simple" id="similarityTable" size="sm">
       <Thead>
@@ -40,7 +42,7 @@ function CompsRentTable({ SIMILARITY_TABLE_DATA }) {
             className="leftCell"
             style={{ fontWeight: "900", color: "#6b46c1", fontSize: "15px" }}
           >
-            Comps Rent
+            Comps Sale
           </Th>
 
           {SIMILARITY_TABLE_DATA.map((property, i) => {
@@ -164,56 +166,52 @@ function CompsRentTable({ SIMILARITY_TABLE_DATA }) {
         </Tr>
 
         <Tr className="tableRow">
-          <Td className="leftCell">Rental Price</Td>
+          <Td className="leftCell">Listing Price</Td>
           {/* <Td>
-                  {result && result.rental_price
-                    ? (result.rent / result.sqft).toFixed(1)
-                    : "N/A"}
+                  {result && checkDataExist(result[0].listing_price / 1000)}k
                 </Td> */}
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return (
                 <Td key={uuidv4()}>
-                  ${numberWithCommas(property.rental_price)}
+                  ${numberWithCommas(property.sale_listing_price)}
                 </Td>
               );
           })}
           <Td className="similarityTableTotal">
-            ${numberWithCommas(compsAvg.rental_price)}
+            ${numberWithCommas(compsAvg.sale_listing_price)}
           </Td>
         </Tr>
 
         <Tr className="tableRow">
-          <Td className="leftCell">Rent/sqft</Td>
-          {/* <Td>
-                  {result && result[0].rent && result[0].lot_size
-                    ? (result[0].rent / result[0].lot_size).toFixed(1)
-                    : "N/A"}
-                </Td> */}
+          <Td className="leftCell">Closing Price</Td>
+          {/* <Td>{result && checkDataExist(result[0].rent)}</Td> */}
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
               return (
                 <Td key={uuidv4()}>
-                  {property.rental_price &&
-                    `$${(
-                      property.rental_price / property.building_area
-                    ).toFixed(1)}`}
+                  ${numberWithCommas(property.sale_closing_price)}
                 </Td>
               );
           })}
           <Td className="similarityTableTotal">
-            ${Math.floor(compsAvg["price/sqft"] * 100) / 100}
+            ${numberWithCommas(compsAvg.sale_closing_price)}
           </Td>
         </Tr>
 
-        {/* <Tr className="tableRow">
-          <Td className="leftCell">Status</Td>
+        <Tr className="tableRow">
+          <Td className="leftCell">Closing date</Td>
+          {/* <Td>{result && checkDataExist(result[0].rent)}</Td> */}
           {SIMILARITY_TABLE_DATA.map((property, i) => {
             if (i >= tableMarker && i < tableMarker + tableColumns)
-              return <Td key={uuidv4()}>{property.status}</Td>;
+              return (
+                <Td key={uuidv4()} style={{ fontSize: "12px" }}>
+                  {property.date.slice(0, 10)}
+                </Td>
+              );
           })}
           <Td className="similarityTableTotal"></Td>
-        </Tr> */}
+        </Tr>
 
         <Tr className="tableRow">
           <Td className="leftCell">Distance from subject</Td>
@@ -249,4 +247,4 @@ function CompsRentTable({ SIMILARITY_TABLE_DATA }) {
   );
 }
 
-export default CompsRentTable;
+export default CompsSaleTable;

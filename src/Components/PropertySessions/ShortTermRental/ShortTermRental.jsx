@@ -2,9 +2,10 @@ import React, { useContext } from "react";
 import { Col, Row } from "react-bootstrap";
 import { AppContext } from "../../../Context/AppContext";
 import { numberWithCommas } from "../../../lib/utilityFunctions";
+import CompsSTRTable from "./CompsSTRTable";
 import ShortTermRentalTable from "./ShortTermRentalTable";
 
-function ShortTermRental({ onClickCompsSTR, onClickSTRCount }) {
+function ShortTermRental({ onClickCompsSTR, onClickSTRCount, showCompsSTR }) {
   const { result } = useContext(AppContext);
   const str = result.st;
   return (
@@ -39,6 +40,11 @@ function ShortTermRental({ onClickCompsSTR, onClickSTRCount }) {
             </Row>
           </Col>
         </Row>
+        {showCompsSTR && (
+          <Row>
+            <CompsSTRTable SIMILARITY_TABLE_DATA={result.rent_comps} />
+          </Row>
+        )}
       </div>
     </div>
   );

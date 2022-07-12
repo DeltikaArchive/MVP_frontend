@@ -6,10 +6,11 @@ import { AppContext } from "../../../Context/AppContext";
 import { numberWithCommas } from "../../../lib/utilityFunctions";
 import ARVTable from "./ARVTable";
 import AmenityAffectChart from "./AmenityAffectChart";
+import CompsSaleTable from "./CompsSaleTable";
 
-function ARV({ onClickCompsSale }) {
+function ARV({ onClickCompsSale, showCompsSale }) {
   const { result } = useContext(AppContext);
-  const arv = result.sales
+  const arv = result.sales;
   const arvTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       After repair value.
@@ -20,7 +21,7 @@ function ARV({ onClickCompsSale }) {
       ARV - Listing price - expected expanses
     </Tooltip>
   );
-  
+
   return (
     <div className="mx-3">
       <div className="h3 text-align-left p-3 mb-0 with-bottom-border">
@@ -45,12 +46,33 @@ function ARV({ onClickCompsSale }) {
             <Row>
               <ARVTable onClickCompsSale={onClickCompsSale} />
             </Row>
+          </Col>
+          <Col>
+            <Row>
+              <AmenityAffectChart />
+            </Row>
+          </Col>
+        </Row>
+        {showCompsSale && (
+          <Row>
+            <CompsSaleTable SIMILARITY_TABLE_DATA={result.sales_comps} />
+          </Row>
+        )}
+        <Row>
+          <Col>
             <Row className="arv-table-header">
               <Col>Expenses</Col>
               <Col style={{ textAlign: "end", color: "#f23f05" }}>
                 ${numberWithCommas(225000)}
               </Col>
             </Row>
+            <Row>Expenses table</Row>
+          </Col>
+          <Col> Expense chart</Col>
+        </Row>
+
+        <Row>
+          <Col>
             <Row className="arv-table-header">
               <Col>Flip margin</Col>
               <Col
@@ -69,11 +91,7 @@ function ARV({ onClickCompsSale }) {
               </Col>
             </Row>
           </Col>
-          <Col>
-            <Row>
-              <AmenityAffectChart />
-            </Row>
-          </Col>
+          <Col>other</Col>
         </Row>
 
         {/* <div style={{ fontSize: "12px", textAlign: "left" }}>

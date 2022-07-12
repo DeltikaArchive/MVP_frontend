@@ -1,13 +1,11 @@
 import React, { useContext, useState } from "react";
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
-import PropertyImgNotAvailable from "../../Images/PropertyImgNotAvailable.png";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { numberWithCommas } from "../../lib/utilityFunctions";
+import { numberWithCommas } from "../../../lib/utilityFunctions";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { AppContext } from "../../Context/AppContext";
-import { compose } from "@mui/system";
+import { AppContext } from "../../../Context/AppContext";
 
 function CompsSTRTable({ SIMILARITY_TABLE_DATA }) {
    const { popupId, setPopupId, viewport, setViewport, result } =

@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import ARV from "./ARV/ARV";
-import Similarity from "./Similarity";
 import { AppContext } from "../../Context/AppContext";
 import { auth } from "../../firebase-config";
 import { getPropertyById, getPropertyByOwner } from "../../lib/propertiesDB";
@@ -26,7 +25,8 @@ function Property() {
   } = useContext(AppContext);
   let navigate = useNavigate();
   const {
-    viewport, setViewport,
+    viewport,
+    setViewport,
     loading,
     setCompsPins,
     result,
@@ -88,7 +88,7 @@ function Property() {
 
   function handleClickCompsSale() {
     setCompsPins(result.sales_comps);
-    setShowCompsSale(true);
+    setShowCompsSale(!showCompsSale);
     setShowCompsRent(false);
     setShowCompsSTR(false);
   }
@@ -96,7 +96,7 @@ function Property() {
   function handleClickCompsRent() {
     setCompsPins(result.rent_comps);
     setShowCompsSale(false);
-    setShowCompsRent(true);
+    setShowCompsRent(!showCompsRent);
     setShowCompsSTR(false);
   }
 
@@ -104,22 +104,25 @@ function Property() {
     setCompsPins(result.st_comps);
     setShowCompsSale(false);
     setShowCompsRent(false);
-    setShowCompsSTR(true);
+    setShowCompsSTR(!showCompsSTR);
   }
-
 
   function handleClickSTRCount(source_ids) {
     const newIdsArray = source_ids.split(", ").map((e) => e.slice(1, -1));
     // console.log(newIdsArray);
     const properties = result.st_comps.filter((property) =>
-    newIdsArray.includes(property.source_id)
+      newIdsArray.includes(property.source_id)
     );
     // console.log(properties);
-    setViewport({ ...viewport, latitude: properties[0].latitude, longitude: properties[0].longitude });
+    setViewport({
+      ...viewport,
+      latitude: properties[0].latitude,
+      longitude: properties[0].longitude,
+    });
     setCompsPins(properties);
-     setShowCompsSale(false);
-     setShowCompsRent(false);
-     setShowCompsSTR(false);
+    setShowCompsSale(false);
+    setShowCompsRent(false);
+    setShowCompsSTR(false);
   }
 
   return (
@@ -221,27 +224,24 @@ function Property() {
             <Environment />
           </section>
           <section id="arv">
-            <ARV onClickCompsSale={handleClickCompsSale} />
+            <ARV
+              onClickCompsSale={handleClickCompsSale}
+              showCompsSale={showCompsSale}
+            />
           </section>
           <section id="long-term-rental">
-            <LongTermRental onClickCompsRent={handleClickCompsRent} />
+            <LongTermRental
+              onClickCompsRent={handleClickCompsRent}
+              showCompsRent={showCompsRent}
+            />
           </section>
           <section id="short-term-rental">
             <ShortTermRental
               onClickCompsSTR={handleClickCompsSTR}
               onClickSTRCount={handleClickSTRCount}
+              showCompsSTR={showCompsSTR}
             />
           </section>
-
-          {(showCompsSale || showCompsRent || showCompsSTR) && (
-            <Row>
-              <Similarity
-                compsSale={showCompsSale}
-                compsRent={showCompsRent}
-                compsSTR={showCompsSTR}
-              />
-            </Row>
-          )}
         </div>
       )}
     </div>

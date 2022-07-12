@@ -2,9 +2,8 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import SearchBarN from "../Components/SearchBarN";
 import MainNavbar from "../Components/MainNavbar"
-import MapPageN from "./MapPageN";
 import SavedFiltersList from "../Components/Home/SavedFiltersList";
-
+import MainMap from './MainMap'
 export default function Home() {
   return (
     <>
@@ -19,7 +18,7 @@ export default function Home() {
               <SavedFiltersList />
             </Col>
             <Col lg={5} className="pe-0">
-            <MapPageN />
+            <MainMap />
             </Col>
           </Row>
         </div>

@@ -1,7 +1,22 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import ReactMapGL, { Marker, Source, Layer, Popup, NavigationControl } from "react-map-gl";
-import { createPolygonsCollection, createClusters, checkExist } from "../Map/MapUtils";
-import { clusterLayer, clusterCountLayer, unclusteredPointLayer } from "../Map/layers";
+import Map, {
+  Marker,
+  Source,
+  Layer,
+  Popup,
+  NavigationControl,
+} from "react-map-gl";
+import {
+  createPolygonsCollection,
+  createClusters,
+  checkExist,
+} from "../Map/MapUtils";
+import RoomIcon from "@mui/icons-material/Room";
+import {
+  clusterLayer,
+  clusterCountLayer,
+  unclusteredPointLayer,
+} from "../Map/layers";
 import { dataLayer } from "../Map/map-styles.ts";
 import { AppContext } from "../Context/AppContext";
 import { getPolygons } from "../lib/propertiesDB";
@@ -17,14 +32,23 @@ import ParkIcon from "@mui/icons-material/Park";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import TocIcon from "@mui/icons-material/Toc";
-import { Bars, Malls, Museums, Parks, Restaurants, SuperMarkets } from "../Map/YelpData";
+import CircleTwoToneIcon from "@mui/icons-material/CircleTwoTone";
+import PushPinIcon from "@mui/icons-material/PushPin";
+import {
+  Bars,
+  Malls,
+  Museums,
+  Parks,
+  Restaurants,
+  SuperMarkets,
+} from "../Map/YelpData";
 import mapboxgl from "mapbox-gl";
 import PopupCardN from "../Map/PopupCardN";
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
-mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
+mapboxgl.workerClass =  require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
-export default function MapPage() {
+export default function MainMap() {
   const ShiftViewClusterMarkers = 12;
   //   const [selectedPin, setSelectedPin] = useState();
   const [clusters, setClusters] = useState([]);
@@ -36,19 +60,47 @@ export default function MapPage() {
   const [showRestaurants, setShowRestaurants] = useState(false);
   const [showSuperMarkets, setShowSuperMarkets] = useState(false);
   const [showMapDrawer, setShowMapDrawer] = useState(false);
-  const { viewport, setViewport, searchResults, selectedId, setSelectedId, showPolygons, mapZoom, setMapZoom } =
-    useContext(AppContext);
+
+  const {
+    result,
+    popupId,setPopupId,
+    compsPins,
+    showCompsSale,
+    showCompsRent,
+    showCompsSTR,
+    viewport,
+    setViewport,
+    searchResults,
+    selectedId,
+    setSelectedId,
+    showPolygons,
+    mapZoom,
+    setMapZoom,
+  } = useContext(AppContext);
 
   const [hoverInfo, setHoverInfo] = useState(null);
-  const [popupId, setPopupId] = useState(null);
+  
 
-    useEffect(() => {
-      getPolygons().then((res) => {
-        const collection = createPolygonsCollection(res);
-        setPolygons(collection);
-          console.log(collection)
-      });
-    }, []);
+  let pinStyle = {
+    fontSize: viewport.zoom * 1.5,
+    cursor: "pointer",
+  };
+
+  if (showCompsSale) {
+    pinStyle.color = "#df6fbe";
+  } else if (showCompsRent) {
+    pinStyle.color = "#fea900f8";
+  } else {
+    pinStyle.color = "#0fa893";
+  }
+
+  useEffect(() => {
+    getPolygons().then((res) => {
+      const collection = createPolygonsCollection(res);
+      setPolygons(collection);
+      console.log(collection);
+    });
+  }, []);
 
   useEffect(() => {
     createClusters(searchResults).then((res) => setClusters(res));
@@ -64,10 +116,16 @@ export default function MapPage() {
     // console.log(hoveredFeature && { feature: hoveredFeature, x, y });
   }, []);
 
+  function handleMarkerClick(id) {
+    setPopupId(id);
+    
+    // setViewport({ ...viewport, latitude: lat, longitude: long });
+  }
+
   return (
     <>
       <div id="mainMap">
-        <ReactMapGL
+        <Map
           {...viewport}
           onMove={(evt) => {
             setViewport(evt.viewState);
@@ -78,43 +136,80 @@ export default function MapPage() {
             setMapZoom(e.viewState.zoom);
           }}
           mapStyle="mapbox://styles/mapbox/streets-v8"
-          // style={{ width: "100%", height: "300px" }}
+          style={{ width: "100%", height: "500px" }}
           mapboxAccessToken={
             "pk.eyJ1IjoiYW1pcmI0IiwiYSI6ImNremU2aTNoYjJnMTAyb245dmFuOXd5c3gifQ.Glo-CqkxReedraWEdN-W3g"
           }
           interactiveLayerIds={showPolygons ? ["data"] : null}
           onMouseMove={showPolygons ? onHover : null}
           onMouseLeave={(e) => setHoverInfo(null)}
+          transitionDuration="1000"
         >
-          {mapZoom > ShiftViewClusterMarkers && (
+          {mapZoom && result && (
+            <>
+              <Marker
+                longitude={checkExist(result.info.longitude)}
+                latitude={checkExist(result.info.latitude)}
+                // clickTolerance={1}
+              >
+                <RoomIcon
+                  style={{
+                    fontSize: viewport.zoom * 3,
+                    color: "red",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => handleMarkerClick(result.info.source_id)}
+                />
+              </Marker>
+              {result.info.source_id === popupId && (
+                <Popup
+                  longitude={result.info.longitude}
+                  latitude={result.info.latitude}
+                  tipSize={30}
+                  anchor="left"
+                  closeButton={true}
+                  closeOnClick={true}
+                  offset={10}
+                  onClose={() => {
+                    setPopupId(null);
+                  }}
+                >
+                  {/* <PopupCard pin={pin} /> */}
+                  <PopupCardN pin={result.info} />
+                </Popup>
+              )}
+            </>
+          )}
+          {mapZoom && compsPins && (
             <div>
-              {searchResults.map((pin) => {
+              {compsPins.map((pin) => {
                 return (
-                  <div key={pin.prop_id}>
+                  <div key={pin.source_id}>
                     <Marker
                       longitude={checkExist(pin.longitude)}
                       latitude={checkExist(pin.latitude)}
-                      clickTolerance={1}
+                      // clickTolerance={1}
                     >
-                      <img
-                        src={selectedId === pin.prop_id ? PinSelected : Pin}
-                        alt="pin"
-                        style={{ height: viewport.zoom * 1.5 }}
+                      <CircleTwoToneIcon
+                        style={pinStyle}
                         onClick={() => {
-                          setPopupId(pin.prop_id);
+                          handleMarkerClick(pin.source_id);
                         }}
-                        className="pointy"
                       />
                     </Marker>
 
-                    {pin.prop_id === popupId && (
+                    {pin.source_id === popupId && (
                       <Popup
                         longitude={checkExist(pin.longitude)}
                         latitude={checkExist(pin.latitude)}
                         tipSize={30}
                         anchor="left"
-                        closeButton={false}
+                        closeButton={true}
+                        closeOnClick={true}
                         offset={10}
+                        onClose={() => {
+                          setPopupId(null);
+                        }}
                       >
                         {/* <PopupCard pin={pin} /> */}
                         <PopupCardN pin={pin} />
@@ -247,8 +342,8 @@ export default function MapPage() {
               );
             })}
           <NavigationControl />
-        </ReactMapGL>
-        <div className="d-flex justify-content-between">
+        </Map>
+        {/* <div className="d-flex justify-content-between">
           <div onClick={(e) => setShowMapDrawer(true)}>
             <TocIcon id="filterIcon" fontSize="inherit" />
             <span>Filters</span>
@@ -282,7 +377,7 @@ export default function MapPage() {
           setShowRestaurants={setShowRestaurants}
           showSuperMarkets={showSuperMarkets}
           setShowSuperMarkets={setShowSuperMarkets}
-        />
+        />*/}
       </div>
     </>
   );

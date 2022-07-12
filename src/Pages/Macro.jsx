@@ -15,11 +15,11 @@ import Education from "../Components/Macro/Education";
 import Cpi from "../Components/Macro/Cpi";
 import EmploymentRate from "../Components/Macro/EmploymentRate";
 import MigrationTo from "../Components/Macro/MigrationTo";
-import MapPage from "./MapPage";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import Sidebar from "../Components/Sidebar";
 import MacroBar from "../Components/Macro/MacroBar";
+import MainMap from "./MainMap";
 
 export default function Macro() {
   let navigate = useNavigate();
@@ -156,7 +156,7 @@ export default function Macro() {
             {!isMapOpened && <ArrowLeftIcon fontSize="inherit" />}
           </div>
           <div id="sideMap" className={isMapOpened ? "mapOpen" : "mapClosed"}>
-            <MapPage />
+            <MainMap/>
           </div>
         </div>
       </div>

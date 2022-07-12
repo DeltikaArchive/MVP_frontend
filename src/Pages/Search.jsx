@@ -1,9 +1,10 @@
-import "./search.css";
+import "./Search.css";
 import MainNavbar from "../Components/MainNavbar";
 import { Col, Row } from "react-bootstrap";
 import SearchBarN from "../Components/SearchBarN";
 import Property from "../Components/PropertySessions/Property";
-import MapPageN from "./MapPageN";
+import MainMap from "./MainMap";
+
 export default function Search() {
   return (
     <>
@@ -19,7 +20,7 @@ export default function Search() {
             <Property />
           </Col>
           <Col lg={5} className="pe-0">
-            <MapPageN />
+            <MainMap />
           </Col>
         </Row>
       </div>

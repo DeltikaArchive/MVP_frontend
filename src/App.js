@@ -6,12 +6,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Home from "./Pages/Home";
 import "mapbox-gl/dist/mapbox-gl.css";
-import PropertyRes from "./Pages/PropertyRes";
 import SearchResults from "./Components/SearchResults";
-import MapPage from "./Pages/MapPage";
 import Welcome from "./Components/LoginAndSignup/Welcome";
 import ForgotPassword from "./Components/LoginAndSignup/ForgotPassword";
-import Filters from "./Components/Filters";
 import { getAllProperties } from "./lib/propertiesDB";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase-config";
@@ -22,6 +19,7 @@ import axios from "axios";
 import { URLrequests } from "./config";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Search from "./Pages/Search";
+import MainMap from "./Pages/MainMap";
 
 
 const muiTheme = createTheme();
@@ -213,7 +211,7 @@ const [popupId, setPopupId] = useState(null);
               <Routes>
                 <Route path="/login-signup" element={<Welcome />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/map" element={<MapPage />} />
+                <Route path="/map" element={<MainMap />} />
                 <Route path="/" element={<Home />}/>
                   {/* <Route path="/" element={<SavedFiltersList />} /> */}
                   {/* <Route
